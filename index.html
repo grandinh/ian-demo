@@ -1,0 +1,838 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claude Code for Marketing — Built Different</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-deep: #060a12;
+      --bg-card: #0c1220;
+      --bg-card-hover: #111a2e;
+      --bg-terminal: #0a0e18;
+      --text-primary: #e8e6e3;
+      --text-secondary: #8a919e;
+      --text-dim: #4a5568;
+      --accent-teal: #00d4aa;
+      --accent-teal-dim: rgba(0, 212, 170, 0.15);
+      --accent-gold: #f0c674;
+      --accent-gold-dim: rgba(240, 198, 116, 0.12);
+      --accent-coral: #ff6b6b;
+      --accent-blue: #4a9eff;
+      --border: rgba(255, 255, 255, 0.06);
+      --border-accent: rgba(0, 212, 170, 0.2);
+      --font-display: 'Playfair Display', Georgia, serif;
+      --font-body: 'Outfit', -apple-system, sans-serif;
+      --font-mono: 'IBM Plex Mono', 'Consolas', monospace;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      font-family: var(--font-body);
+      font-weight: 300;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 20% 10%, rgba(0, 212, 170, 0.04) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 50% at 80% 80%, rgba(74, 158, 255, 0.03) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Noise texture overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    section, header, footer { position: relative; z-index: 2; }
+
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+
+    /* ───── NAV ───── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 1.25rem 2rem;
+      background: rgba(6, 10, 18, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: all 0.3s ease;
+    }
+    nav .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    nav .logo {
+      font-family: var(--font-mono); font-weight: 600; font-size: 0.85rem;
+      color: var(--accent-teal); letter-spacing: 0.05em;
+    }
+    nav .logo span { color: var(--text-dim); }
+    nav ul { list-style: none; display: flex; gap: 2rem; }
+    nav a {
+      color: var(--text-secondary); text-decoration: none; font-size: 0.85rem;
+      font-weight: 400; letter-spacing: 0.02em; transition: color 0.2s;
+    }
+    nav a:hover { color: var(--text-primary); }
+
+    /* ───── HERO ───── */
+    .hero {
+      min-height: 100vh; display: flex; align-items: center;
+      padding: 8rem 0 6rem;
+    }
+    .hero-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+    }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 1rem; border-radius: 100px;
+      background: var(--accent-teal-dim);
+      border: 1px solid rgba(0, 212, 170, 0.2);
+      font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-teal);
+      margin-bottom: 1.5rem; letter-spacing: 0.04em;
+    }
+    .hero-badge::before {
+      content: ''; width: 6px; height: 6px; border-radius: 50%;
+      background: var(--accent-teal);
+      box-shadow: 0 0 8px var(--accent-teal);
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; } 50% { opacity: 0.4; }
+    }
+    .hero h1 {
+      font-family: var(--font-display); font-weight: 900;
+      font-size: clamp(2.8rem, 5vw, 4.2rem); line-height: 1.1;
+      margin-bottom: 1.5rem;
+    }
+    .hero h1 em {
+      font-style: italic; color: var(--accent-teal);
+      text-shadow: 0 0 40px rgba(0, 212, 170, 0.2);
+    }
+    .hero-sub {
+      font-size: 1.15rem; color: var(--text-secondary);
+      max-width: 480px; margin-bottom: 2.5rem; line-height: 1.8;
+    }
+    .hero-sub strong { color: var(--text-primary); font-weight: 500; }
+    .hero-cta {
+      display: inline-flex; align-items: center; gap: 0.75rem;
+      padding: 0.9rem 2rem; border-radius: 8px;
+      background: var(--accent-teal); color: var(--bg-deep);
+      font-family: var(--font-body); font-weight: 600; font-size: 0.95rem;
+      text-decoration: none; transition: all 0.3s ease;
+      border: none; cursor: pointer;
+    }
+    .hero-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0, 212, 170, 0.3);
+    }
+    .hero-cta svg { width: 18px; height: 18px; }
+
+    /* ───── TERMINAL ───── */
+    .terminal {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+      box-shadow:
+        0 4px 6px rgba(0,0,0,0.3),
+        0 20px 60px rgba(0,0,0,0.4),
+        inset 0 1px 0 rgba(255,255,255,0.03);
+    }
+    .terminal-bar {
+      display: flex; align-items: center; gap: 0.5rem;
+      padding: 0.75rem 1rem;
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid var(--border);
+    }
+    .terminal-dot {
+      width: 10px; height: 10px; border-radius: 50%;
+    }
+    .terminal-dot.r { background: #ff5f57; }
+    .terminal-dot.y { background: #febc2e; }
+    .terminal-dot.g { background: #28c840; }
+    .terminal-title {
+      flex: 1; text-align: center;
+      font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim);
+    }
+    .terminal-body {
+      padding: 1.25rem 1.5rem; font-family: var(--font-mono);
+      font-size: 0.8rem; line-height: 1.9; min-height: 280px;
+    }
+    .terminal-line { opacity: 0; animation: termFadeIn 0.3s forwards; }
+    .terminal-line .prompt { color: var(--accent-teal); }
+    .terminal-line .cmd { color: var(--text-primary); font-weight: 500; }
+    .terminal-line .comment { color: var(--text-dim); font-style: italic; }
+    .terminal-line .output { color: var(--text-secondary); }
+    .terminal-line .success { color: var(--accent-teal); }
+    .terminal-line .warn { color: var(--accent-gold); }
+    .terminal-line .file { color: var(--accent-blue); }
+    @keyframes termFadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .cursor-blink {
+      display: inline-block; width: 8px; height: 16px;
+      background: var(--accent-teal); margin-left: 2px;
+      vertical-align: text-bottom;
+      animation: blink 1s step-end infinite;
+    }
+    @keyframes blink {
+      0%, 100% { opacity: 1; } 50% { opacity: 0; }
+    }
+
+    /* ───── SECTION HEADERS ───── */
+    .section-header {
+      text-align: center; margin-bottom: 4rem;
+    }
+    .section-tag {
+      font-family: var(--font-mono); font-size: 0.75rem;
+      color: var(--accent-teal); letter-spacing: 0.1em;
+      text-transform: uppercase; margin-bottom: 1rem;
+      display: block;
+    }
+    .section-header h2 {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: clamp(2rem, 3.5vw, 3rem); line-height: 1.2;
+      margin-bottom: 1rem;
+    }
+    .section-header p {
+      color: var(--text-secondary); font-size: 1.05rem;
+      max-width: 600px; margin: 0 auto; line-height: 1.8;
+    }
+
+    /* ───── SALESFORCE SECTION ───── */
+    .salesforce { padding: 8rem 0; }
+    .sf-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
+      margin-top: 3rem;
+    }
+    .sf-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 2rem;
+      transition: all 0.4s ease;
+      position: relative; overflow: hidden;
+    }
+    .sf-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, var(--accent-teal), var(--accent-blue));
+      opacity: 0; transition: opacity 0.4s ease;
+    }
+    .sf-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    }
+    .sf-card:hover::before { opacity: 1; }
+    .sf-card-icon {
+      width: 48px; height: 48px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.25rem; font-size: 1.4rem;
+      background: var(--accent-teal-dim);
+      border: 1px solid rgba(0, 212, 170, 0.15);
+    }
+    .sf-card h3 {
+      font-family: var(--font-body); font-weight: 600;
+      font-size: 1.15rem; margin-bottom: 0.75rem;
+    }
+    .sf-card p {
+      color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7;
+      margin-bottom: 1.25rem;
+    }
+    .sf-card-terminal {
+      background: var(--bg-terminal);
+      border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem 1.25rem;
+      font-family: var(--font-mono); font-size: 0.72rem;
+      line-height: 1.8; color: var(--text-secondary);
+    }
+    .sf-card-terminal .prompt { color: var(--accent-teal); }
+    .sf-card-terminal .cmd { color: var(--text-primary); }
+
+    /* ───── USE CASES ───── */
+    .use-cases { padding: 8rem 0; }
+    .uc-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .uc-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 2rem;
+      transition: all 0.4s ease;
+      position: relative;
+    }
+    .uc-card:hover {
+      background: var(--bg-card-hover);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.25);
+    }
+    .uc-card-num {
+      font-family: var(--font-display); font-size: 3rem;
+      font-weight: 900; color: rgba(0, 212, 170, 0.08);
+      line-height: 1; margin-bottom: 1rem;
+    }
+    .uc-card h3 {
+      font-weight: 600; font-size: 1.05rem; margin-bottom: 0.75rem;
+    }
+    .uc-card p {
+      color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7;
+      margin-bottom: 1rem;
+    }
+    .uc-tag {
+      display: inline-block; padding: 0.25rem 0.7rem; border-radius: 100px;
+      font-family: var(--font-mono); font-size: 0.65rem;
+      background: var(--accent-gold-dim);
+      color: var(--accent-gold); border: 1px solid rgba(240, 198, 116, 0.15);
+    }
+
+    /* ───── WORKFLOW DEMO ───── */
+    .workflow { padding: 8rem 0; }
+    .workflow-grid {
+      display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem;
+      align-items: start;
+    }
+    .workflow-steps { display: flex; flex-direction: column; gap: 0.5rem; }
+    .wf-step {
+      padding: 1.25rem 1.5rem; border-radius: 10px;
+      border: 1px solid transparent;
+      cursor: pointer; transition: all 0.3s ease;
+    }
+    .wf-step.active {
+      background: var(--bg-card);
+      border-color: var(--border-accent);
+    }
+    .wf-step-num {
+      font-family: var(--font-mono); font-size: 0.7rem;
+      color: var(--accent-teal); margin-bottom: 0.4rem;
+      letter-spacing: 0.06em;
+    }
+    .wf-step h4 {
+      font-weight: 600; font-size: 1rem; margin-bottom: 0.3rem;
+      transition: color 0.3s;
+    }
+    .wf-step:not(.active) h4 { color: var(--text-secondary); }
+    .wf-step p {
+      font-size: 0.85rem; color: var(--text-dim);
+      line-height: 1.6; display: none;
+    }
+    .wf-step.active p { display: block; color: var(--text-secondary); }
+    .workflow-terminal { position: sticky; top: 6rem; }
+
+    /* ───── BEST PRACTICES ───── */
+    .practices { padding: 8rem 0; }
+    .bp-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
+    }
+    .bp-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border);
+      border-radius: 12px; padding: 2rem;
+      display: flex; gap: 1.25rem;
+      transition: all 0.3s ease;
+    }
+    .bp-card:hover {
+      border-color: var(--border-accent);
+      background: var(--bg-card-hover);
+    }
+    .bp-icon {
+      flex-shrink: 0; width: 40px; height: 40px;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 8px; font-size: 1.1rem;
+      background: var(--accent-teal-dim);
+      border: 1px solid rgba(0, 212, 170, 0.12);
+    }
+    .bp-card h3 {
+      font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem;
+    }
+    .bp-card p {
+      color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7;
+    }
+
+    /* ───── CTA ───── */
+    .cta-section {
+      padding: 8rem 0; text-align: center;
+    }
+    .cta-box {
+      background: linear-gradient(135deg, var(--bg-card) 0%, rgba(0, 212, 170, 0.05) 100%);
+      border: 1px solid var(--border-accent);
+      border-radius: 20px; padding: 4rem 3rem;
+      max-width: 700px; margin: 0 auto;
+      position: relative; overflow: hidden;
+    }
+    .cta-box::before {
+      content: '';
+      position: absolute; top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle at center, rgba(0, 212, 170, 0.03) 0%, transparent 50%);
+      animation: rotateSlow 20s linear infinite;
+    }
+    @keyframes rotateSlow { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+    .cta-box > * { position: relative; z-index: 1; }
+    .cta-box h2 {
+      font-family: var(--font-display); font-weight: 700;
+      font-size: 2.2rem; margin-bottom: 1rem;
+    }
+    .cta-box p {
+      color: var(--text-secondary); margin-bottom: 2rem;
+      font-size: 1.05rem; line-height: 1.7;
+    }
+
+    /* ───── FOOTER ───── */
+    footer {
+      padding: 3rem 0; text-align: center;
+      border-top: 1px solid var(--border);
+    }
+    footer p {
+      font-family: var(--font-mono); font-size: 0.75rem;
+      color: var(--text-dim);
+    }
+
+    /* ───── SCROLL ANIMATIONS ───── */
+    .reveal {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .reveal.visible {
+      opacity: 1; transform: translateY(0);
+    }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* ───── RESPONSIVE ───── */
+    @media (max-width: 900px) {
+      .hero-grid, .sf-grid, .workflow-grid { grid-template-columns: 1fr; }
+      .uc-grid { grid-template-columns: 1fr 1fr; }
+      .bp-grid { grid-template-columns: 1fr; }
+      nav ul { display: none; }
+    }
+    @media (max-width: 600px) {
+      .uc-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-inner">
+    <div class="logo">claude-code <span>~/marketing</span></div>
+    <ul>
+      <li><a href="#salesforce">Salesforce</a></li>
+      <li><a href="#use-cases">Use Cases</a></li>
+      <li><a href="#workflow">How It Works</a></li>
+      <li><a href="#practices">Best Practices</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-grid">
+      <div>
+        <div class="hero-badge">DEMO FOR IAN</div>
+        <h1>Your marketing stack,<br>powered by <em>Claude&nbsp;Code</em></h1>
+        <p class="hero-sub">
+          A CLI-based AI developer that builds tools, automates workflows, and connects your data — from <strong>Salesforce pipelines</strong> to <strong>campaign analytics</strong> — using plain English.
+        </p>
+        <a href="#salesforce" class="hero-cta">
+          See what's possible
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="terminal" id="hero-terminal">
+        <div class="terminal-bar">
+          <div class="terminal-dot r"></div>
+          <div class="terminal-dot y"></div>
+          <div class="terminal-dot g"></div>
+          <div class="terminal-title">claude — ~/marketing-ops</div>
+        </div>
+        <div class="terminal-body" id="hero-term-body"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SALESFORCE -->
+<section class="salesforce" id="salesforce">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">Salesforce + Claude Code</span>
+      <h2>Your CRM, supercharged</h2>
+      <p>Connect Claude Code to Salesforce via MCP and build custom tooling on top of your live data — no Salesforce developer needed.</p>
+    </div>
+    <div class="sf-grid">
+      <div class="sf-card reveal reveal-delay-1">
+        <div class="sf-card-icon">📊</div>
+        <h3>Pipeline Analytics Dashboard</h3>
+        <p>Ask Claude Code to build a real-time dashboard that pulls from your Salesforce opportunities, stages, and close dates — deployed in minutes.</p>
+        <div class="sf-card-terminal">
+          <span class="prompt">$</span> <span class="cmd">claude "Build me a pipeline dashboard</span><br>
+          <span class="cmd">&nbsp; that shows deals by stage, expected</span><br>
+          <span class="cmd">&nbsp; close dates, and revenue forecast</span><br>
+          <span class="cmd">&nbsp; from our Salesforce data"</span>
+        </div>
+      </div>
+      <div class="sf-card reveal reveal-delay-2">
+        <div class="sf-card-icon">🎯</div>
+        <h3>Lead Scoring Automation</h3>
+        <p>Build custom lead scoring models that analyze engagement signals, firmographic data, and historical conversion patterns from your CRM.</p>
+        <div class="sf-card-terminal">
+          <span class="prompt">$</span> <span class="cmd">claude "Create a lead scoring script</span><br>
+          <span class="cmd">&nbsp; that weighs website visits, email</span><br>
+          <span class="cmd">&nbsp; opens, company size, and industry</span><br>
+          <span class="cmd">&nbsp; against our historical win rates"</span>
+        </div>
+      </div>
+      <div class="sf-card reveal reveal-delay-3">
+        <div class="sf-card-icon">🔄</div>
+        <h3>Campaign-to-Revenue Attribution</h3>
+        <p>Map marketing campaigns to closed-won revenue through Salesforce campaign members and opportunity contact roles. See what's actually driving pipeline.</p>
+        <div class="sf-card-terminal">
+          <span class="prompt">$</span> <span class="cmd">claude "Build attribution reporting</span><br>
+          <span class="cmd">&nbsp; that traces our campaigns through</span><br>
+          <span class="cmd">&nbsp; to closed-won opportunities with</span><br>
+          <span class="cmd">&nbsp; multi-touch weighting"</span>
+        </div>
+      </div>
+      <div class="sf-card reveal reveal-delay-4">
+        <div class="sf-card-icon">⚡</div>
+        <h3>Automated Data Hygiene</h3>
+        <p>Deduplicate contacts, normalize company names, enrich missing fields, and flag stale leads — all running on a schedule you define.</p>
+        <div class="sf-card-terminal">
+          <span class="prompt">$</span> <span class="cmd">claude "Write a cleanup script that</span><br>
+          <span class="cmd">&nbsp; finds duplicate contacts, merges</span><br>
+          <span class="cmd">&nbsp; them, and flags leads with no</span><br>
+          <span class="cmd">&nbsp; activity in 90 days"</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- USE CASES -->
+<section class="use-cases" id="use-cases">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">Beyond CRM</span>
+      <h2>What marketers are building</h2>
+      <p>Claude Code isn't just for developers. It's for anyone who needs custom tools built fast and iterated on in real time.</p>
+    </div>
+    <div class="uc-grid">
+      <div class="uc-card reveal reveal-delay-1">
+        <div class="uc-card-num">01</div>
+        <h3>Content Pipeline Automation</h3>
+        <p>Generate briefs, draft copy, route approvals, and publish — all orchestrated through Claude Code scripts connected to your CMS.</p>
+        <span class="uc-tag">workflow</span>
+      </div>
+      <div class="uc-card reveal reveal-delay-2">
+        <div class="uc-card-num">02</div>
+        <h3>A/B Test Analysis</h3>
+        <p>Feed experiment data to Claude Code and get statistical significance calculations, winner recommendations, and next-test suggestions.</p>
+        <span class="uc-tag">analytics</span>
+      </div>
+      <div class="uc-card reveal reveal-delay-3">
+        <div class="uc-card-num">03</div>
+        <h3>SEO Tooling</h3>
+        <p>Build keyword research tools, content gap analyzers, and rank trackers that pull from Search Console and your preferred SEO APIs.</p>
+        <span class="uc-tag">growth</span>
+      </div>
+      <div class="uc-card reveal reveal-delay-4">
+        <div class="uc-card-num">04</div>
+        <h3>Email Campaign Builder</h3>
+        <p>Generate HTML email templates, personalization logic, and send-time optimization scripts — tested across clients before you send.</p>
+        <span class="uc-tag">email</span>
+      </div>
+      <div class="uc-card reveal reveal-delay-5">
+        <div class="uc-card-num">05</div>
+        <h3>Social Analytics Dashboards</h3>
+        <p>Aggregate data from multiple platforms into a single view. Track engagement trends, audience growth, and content performance.</p>
+        <span class="uc-tag">social</span>
+      </div>
+      <div class="uc-card reveal">
+        <div class="uc-card-num">06</div>
+        <h3>Data Warehouse Queries</h3>
+        <p>Ask questions about your marketing data in plain English. Claude Code writes the SQL, runs it, and visualizes the results.</p>
+        <span class="uc-tag">data</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- WORKFLOW -->
+<section class="workflow" id="workflow">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">How It Works</span>
+      <h2>From idea to tool in minutes</h2>
+      <p>No coding experience needed. Describe what you want, iterate on the output, and deploy.</p>
+    </div>
+    <div class="workflow-grid reveal">
+      <div class="workflow-steps" id="wf-steps">
+        <div class="wf-step active" data-step="0">
+          <div class="wf-step-num">01</div>
+          <h4>Describe your need</h4>
+          <p>Tell Claude Code what you want in plain English. Be specific about data sources, outputs, and who will use it.</p>
+        </div>
+        <div class="wf-step" data-step="1">
+          <div class="wf-step-num">02</div>
+          <h4>Claude Code builds it</h4>
+          <p>It reads your existing code, writes new files, installs dependencies, and connects to your APIs — all autonomously.</p>
+        </div>
+        <div class="wf-step" data-step="2">
+          <div class="wf-step-num">03</div>
+          <h4>Iterate in real time</h4>
+          <p>"Make the chart blue." "Add a filter for date range." "Export to CSV." Each change happens in seconds.</p>
+        </div>
+        <div class="wf-step" data-step="3">
+          <div class="wf-step-num">04</div>
+          <h4>Deploy and share</h4>
+          <p>Push to Vercel, Netlify, or your internal tools platform. Share a URL with your team. Done.</p>
+        </div>
+      </div>
+      <div class="workflow-terminal">
+        <div class="terminal" id="wf-terminal">
+          <div class="terminal-bar">
+            <div class="terminal-dot r"></div>
+            <div class="terminal-dot y"></div>
+            <div class="terminal-dot g"></div>
+            <div class="terminal-title">claude — ~/campaign-dashboard</div>
+          </div>
+          <div class="terminal-body" id="wf-term-body"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BEST PRACTICES -->
+<section class="practices" id="practices">
+  <div class="container">
+    <div class="section-header reveal">
+      <span class="section-tag">Getting the Most Out of It</span>
+      <h2>Best practices</h2>
+      <p>Tips from power users to help you get better results faster.</p>
+    </div>
+    <div class="bp-grid">
+      <div class="bp-card reveal reveal-delay-1">
+        <div class="bp-icon">💬</div>
+        <div>
+          <h3>Be specific in your prompts</h3>
+          <p>"Build a dashboard" is okay. "Build a dashboard showing Q1 pipeline by rep with a filter for deal stage and a CSV export button" is much better. Context is everything.</p>
+        </div>
+      </div>
+      <div class="bp-card reveal reveal-delay-2">
+        <div class="bp-icon">🔌</div>
+        <div>
+          <h3>Connect your tools via MCP</h3>
+          <p>Model Context Protocol lets Claude Code talk directly to Salesforce, databases, APIs, and more. Set it up once, use it forever. This is where the real power is.</p>
+        </div>
+      </div>
+      <div class="bp-card reveal reveal-delay-3">
+        <div class="bp-icon">🔁</div>
+        <div>
+          <h3>Iterate, don't restart</h3>
+          <p>Claude Code remembers context within a session. Instead of starting over, refine: "Make it wider." "Add last month's data." "Change the colors to match our brand." Build on what's there.</p>
+        </div>
+      </div>
+      <div class="bp-card reveal reveal-delay-4">
+        <div class="bp-icon">📋</div>
+        <div>
+          <h3>Use CLAUDE.md for project memory</h3>
+          <p>Drop a CLAUDE.md file in your project with brand guidelines, data conventions, and tool preferences. Claude Code reads it automatically and follows your rules every session.</p>
+        </div>
+      </div>
+      <div class="bp-card reveal reveal-delay-1">
+        <div class="bp-icon">📐</div>
+        <div>
+          <h3>Start small, expand</h3>
+          <p>Get a working prototype first, then add complexity. "Build the basic chart" → "Add filters" → "Add drill-down" → "Schedule a daily email." Incremental wins compound.</p>
+        </div>
+      </div>
+      <div class="bp-card reveal reveal-delay-2">
+        <div class="bp-icon">🧪</div>
+        <div>
+          <h3>Let it run tests</h3>
+          <p>Claude Code can write and run its own tests. When building automations that touch live data (especially Salesforce), ask it to test against sandbox data first.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <div class="cta-box reveal">
+      <h2>Ready to build?</h2>
+      <p>Claude Code runs in your terminal and works with your existing tools. Start with one workflow — a dashboard, a report, an automation — and see how fast it ships.</p>
+      <a href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" class="hero-cta" style="display: inline-flex;">
+        Get Claude Code
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <p>Built with Claude Code — this entire site was generated in a single prompt.</p>
+  </div>
+</footer>
+
+<script>
+  // ───── HERO TERMINAL ANIMATION ─────
+  const heroLines = [
+    { type: 'prompt', text: '$ claude' },
+    { type: 'output', text: '' },
+    { type: 'comment', text: '# Connected to Salesforce via MCP' },
+    { type: 'output', text: '' },
+    { type: 'prompt', text: '> Build a campaign ROI dashboard that' },
+    { type: 'prompt', text: '  pulls from our Salesforce campaigns' },
+    { type: 'prompt', text: '  and shows cost-per-lead by channel' },
+    { type: 'output', text: '' },
+    { type: 'success', text: '✓ Reading Salesforce campaign schema...' },
+    { type: 'success', text: '✓ Found 847 campaigns, 12.4k leads' },
+    { type: 'file', text: '  Creating dashboard/index.html' },
+    { type: 'file', text: '  Creating dashboard/data.js' },
+    { type: 'file', text: '  Creating dashboard/charts.js' },
+    { type: 'success', text: '✓ Dashboard ready at localhost:3000' },
+    { type: 'output', text: '' },
+    { type: 'warn', text: '→ Shall I deploy this to Vercel?' },
+  ];
+
+  function renderTerminal(containerId, lines, speed = 80) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = '';
+    let i = 0;
+    function addLine() {
+      if (i >= lines.length) {
+        const cursor = document.createElement('span');
+        cursor.className = 'cursor-blink';
+        container.lastChild?.appendChild(cursor);
+        return;
+      }
+      const line = lines[i];
+      const el = document.createElement('div');
+      el.className = 'terminal-line';
+      el.style.animationDelay = `${i * 0.05}s`;
+      if (line.type === 'prompt') el.innerHTML = `<span class="cmd">${line.text}</span>`;
+      else if (line.type === 'comment') el.innerHTML = `<span class="comment">${line.text}</span>`;
+      else if (line.type === 'success') el.innerHTML = `<span class="success">${line.text}</span>`;
+      else if (line.type === 'warn') el.innerHTML = `<span class="warn">${line.text}</span>`;
+      else if (line.type === 'file') el.innerHTML = `<span class="file">${line.text}</span>`;
+      else el.innerHTML = `<span class="output">${line.text || '&nbsp;'}</span>`;
+      container.appendChild(el);
+      i++;
+      setTimeout(addLine, speed);
+    }
+    addLine();
+  }
+
+  // Start hero animation after a brief delay
+  setTimeout(() => renderTerminal('hero-term-body', heroLines, 100), 500);
+
+  // ───── WORKFLOW STEP TERMINALS ─────
+  const wfTerminals = [
+    [
+      { type: 'prompt', text: '$ claude' },
+      { type: 'output', text: '' },
+      { type: 'prompt', text: '> I need a dashboard that shows our' },
+      { type: 'prompt', text: '  Google Ads spend vs Salesforce' },
+      { type: 'prompt', text: '  closed-won revenue, broken down by' },
+      { type: 'prompt', text: '  campaign, for the last 6 months.' },
+      { type: 'prompt', text: '  Include a date range picker.' },
+      { type: 'output', text: '' },
+      { type: 'success', text: '✓ Understood. Let me plan this out...' },
+    ],
+    [
+      { type: 'success', text: '✓ Connecting to Salesforce MCP server' },
+      { type: 'success', text: '✓ Reading Google Ads API credentials' },
+      { type: 'output', text: '' },
+      { type: 'file', text: '  Writing src/api/salesforce.ts' },
+      { type: 'file', text: '  Writing src/api/google-ads.ts' },
+      { type: 'file', text: '  Writing src/components/Dashboard.tsx' },
+      { type: 'file', text: '  Writing src/components/DatePicker.tsx' },
+      { type: 'file', text: '  Writing src/components/SpendChart.tsx' },
+      { type: 'output', text: '' },
+      { type: 'success', text: '✓ Installing chart.js, date-fns' },
+      { type: 'success', text: '✓ Dev server running at :3000' },
+    ],
+    [
+      { type: 'prompt', text: '> Make the revenue bars green and the' },
+      { type: 'prompt', text: '  spend bars gray. Add a ROI % line.' },
+      { type: 'output', text: '' },
+      { type: 'file', text: '  Editing src/components/SpendChart.tsx' },
+      { type: 'success', text: '✓ Updated chart colors and added ROI' },
+      { type: 'output', text: '' },
+      { type: 'prompt', text: '> Add a table below with the raw data' },
+      { type: 'prompt', text: '  and a CSV export button.' },
+      { type: 'output', text: '' },
+      { type: 'file', text: '  Writing src/components/DataTable.tsx' },
+      { type: 'success', text: '✓ Table with export added' },
+    ],
+    [
+      { type: 'prompt', text: '> Ship it to Vercel.' },
+      { type: 'output', text: '' },
+      { type: 'success', text: '✓ Running build... passed' },
+      { type: 'success', text: '✓ Running tests... 8/8 passed' },
+      { type: 'output', text: '' },
+      { type: 'file', text: '  $ git add -A' },
+      { type: 'file', text: '  $ git commit -m "campaign dashboard"' },
+      { type: 'file', text: '  $ git push origin main' },
+      { type: 'output', text: '' },
+      { type: 'success', text: '✓ Deployed to Vercel' },
+      { type: 'warn', text: '→ https://campaign-dash.vercel.app' },
+    ],
+  ];
+
+  document.querySelectorAll('.wf-step').forEach(step => {
+    step.addEventListener('click', () => {
+      document.querySelectorAll('.wf-step').forEach(s => s.classList.remove('active'));
+      step.classList.add('active');
+      const idx = parseInt(step.dataset.step);
+      renderTerminal('wf-term-body', wfTerminals[idx], 70);
+    });
+  });
+
+  // Init first workflow terminal
+  setTimeout(() => renderTerminal('wf-term-body', wfTerminals[0], 90), 1000);
+
+  // ───── SCROLL REVEAL ─────
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
