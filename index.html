@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Claude Code for Marketing — Built Different</title>
+  <title>Claude Code for Marketing — The 201</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Outfit:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -15,6 +15,7 @@
       --bg-card: #0c1220;
       --bg-card-hover: #111a2e;
       --bg-terminal: #0a0e18;
+      --bg-preview: #080d16;
       --text-primary: #e8e6e3;
       --text-secondary: #8a919e;
       --text-dim: #4a5568;
@@ -23,7 +24,11 @@
       --accent-gold: #f0c674;
       --accent-gold-dim: rgba(240, 198, 116, 0.12);
       --accent-coral: #ff6b6b;
+      --accent-coral-dim: rgba(255, 107, 107, 0.12);
       --accent-blue: #4a9eff;
+      --accent-blue-dim: rgba(74, 158, 255, 0.12);
+      --accent-purple: #b57bff;
+      --accent-purple-dim: rgba(181, 123, 255, 0.12);
       --border: rgba(255, 255, 255, 0.06);
       --border-accent: rgba(0, 212, 170, 0.2);
       --font-display: 'Playfair Display', Georgia, serif;
@@ -53,7 +58,6 @@
       z-index: 0;
     }
 
-    /* Noise texture overlay */
     body::after {
       content: '';
       position: fixed;
@@ -65,17 +69,16 @@
     }
 
     section, header, footer { position: relative; z-index: 2; }
-
     .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    .container-wide { max-width: 1400px; margin: 0 auto; padding: 0 2rem; }
 
     /* ───── NAV ───── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 100;
       padding: 1.25rem 2rem;
-      background: rgba(6, 10, 18, 0.8);
+      background: rgba(6, 10, 18, 0.85);
       backdrop-filter: blur(20px);
       border-bottom: 1px solid var(--border);
-      transition: all 0.3s ease;
     }
     nav .nav-inner {
       max-width: 1200px; margin: 0 auto;
@@ -96,10 +99,10 @@
     /* ───── HERO ───── */
     .hero {
       min-height: 100vh; display: flex; align-items: center;
-      padding: 8rem 0 6rem;
+      padding: 8rem 0 4rem;
     }
     .hero-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: center;
     }
     .hero-badge {
       display: inline-flex; align-items: center; gap: 0.5rem;
@@ -115,12 +118,10 @@
       box-shadow: 0 0 8px var(--accent-teal);
       animation: pulse 2s infinite;
     }
-    @keyframes pulse {
-      0%, 100% { opacity: 1; } 50% { opacity: 0.4; }
-    }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
     .hero h1 {
       font-family: var(--font-display); font-weight: 900;
-      font-size: clamp(2.8rem, 5vw, 4.2rem); line-height: 1.1;
+      font-size: clamp(2.6rem, 4.5vw, 3.8rem); line-height: 1.12;
       margin-bottom: 1.5rem;
     }
     .hero h1 em {
@@ -128,8 +129,8 @@
       text-shadow: 0 0 40px rgba(0, 212, 170, 0.2);
     }
     .hero-sub {
-      font-size: 1.15rem; color: var(--text-secondary);
-      max-width: 480px; margin-bottom: 2.5rem; line-height: 1.8;
+      font-size: 1.1rem; color: var(--text-secondary);
+      max-width: 500px; margin-bottom: 2.5rem; line-height: 1.8;
     }
     .hero-sub strong { color: var(--text-primary); font-weight: 500; }
     .hero-cta {
@@ -151,9 +152,7 @@
       background: var(--bg-terminal);
       border: 1px solid var(--border);
       border-radius: 12px; overflow: hidden;
-      box-shadow:
-        0 4px 6px rgba(0,0,0,0.3),
-        0 20px 60px rgba(0,0,0,0.4),
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3), 0 20px 60px rgba(0,0,0,0.4),
         inset 0 1px 0 rgba(255,255,255,0.03);
     }
     .terminal-bar {
@@ -162,9 +161,7 @@
       background: rgba(255,255,255,0.02);
       border-bottom: 1px solid var(--border);
     }
-    .terminal-dot {
-      width: 10px; height: 10px; border-radius: 50%;
-    }
+    .terminal-dot { width: 10px; height: 10px; border-radius: 50%; }
     .terminal-dot.r { background: #ff5f57; }
     .terminal-dot.y { background: #febc2e; }
     .terminal-dot.g { background: #28c840; }
@@ -174,7 +171,7 @@
     }
     .terminal-body {
       padding: 1.25rem 1.5rem; font-family: var(--font-mono);
-      font-size: 0.8rem; line-height: 1.9; min-height: 280px;
+      font-size: 0.78rem; line-height: 1.9; min-height: 280px;
     }
     .terminal-line { opacity: 0; animation: termFadeIn 0.3s forwards; }
     .terminal-line .prompt { color: var(--accent-teal); }
@@ -184,6 +181,7 @@
     .terminal-line .success { color: var(--accent-teal); }
     .terminal-line .warn { color: var(--accent-gold); }
     .terminal-line .file { color: var(--accent-blue); }
+    .terminal-line .error { color: var(--accent-coral); }
     @keyframes termFadeIn {
       from { opacity: 0; transform: translateY(4px); }
       to { opacity: 1; transform: translateY(0); }
@@ -194,19 +192,14 @@
       vertical-align: text-bottom;
       animation: blink 1s step-end infinite;
     }
-    @keyframes blink {
-      0%, 100% { opacity: 1; } 50% { opacity: 0; }
-    }
+    @keyframes blink { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
 
     /* ───── SECTION HEADERS ───── */
-    .section-header {
-      text-align: center; margin-bottom: 4rem;
-    }
+    .section-header { text-align: center; margin-bottom: 4rem; }
     .section-tag {
       font-family: var(--font-mono); font-size: 0.75rem;
       color: var(--accent-teal); letter-spacing: 0.1em;
-      text-transform: uppercase; margin-bottom: 1rem;
-      display: block;
+      text-transform: uppercase; margin-bottom: 1rem; display: block;
     }
     .section-header h2 {
       font-family: var(--font-display); font-weight: 700;
@@ -215,163 +208,402 @@
     }
     .section-header p {
       color: var(--text-secondary); font-size: 1.05rem;
-      max-width: 600px; margin: 0 auto; line-height: 1.8;
+      max-width: 640px; margin: 0 auto; line-height: 1.8;
     }
 
-    /* ───── SALESFORCE SECTION ───── */
-    .salesforce { padding: 8rem 0; }
-    .sf-grid {
-      display: grid; grid-template-columns: 1fr 1fr; gap: 3rem;
-      margin-top: 3rem;
+    /* ───── PARADIGM SECTION ───── */
+    .paradigm { padding: 2rem 0 8rem; }
+    .paradigm-grid {
+      display: grid; grid-template-columns: 1fr 40px 1fr; gap: 2rem;
+      align-items: center;
     }
-    .sf-card {
-      background: var(--bg-card);
+    .paradigm-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 2.5rem;
+    }
+    .paradigm-card.old { opacity: 0.6; }
+    .paradigm-card.new { border-color: var(--border-accent); }
+    .paradigm-card h3 {
+      font-family: var(--font-mono); font-size: 0.8rem;
+      letter-spacing: 0.06em; margin-bottom: 1rem;
+    }
+    .paradigm-card.old h3 { color: var(--text-dim); }
+    .paradigm-card.new h3 { color: var(--accent-teal); }
+    .paradigm-card h4 {
+      font-family: var(--font-display); font-size: 1.5rem;
+      font-weight: 700; margin-bottom: 1rem; line-height: 1.3;
+    }
+    .paradigm-card ul {
+      list-style: none; display: flex; flex-direction: column; gap: 0.6rem;
+    }
+    .paradigm-card li {
+      font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;
+      padding-left: 1.2rem; position: relative;
+    }
+    .paradigm-card.old li::before {
+      content: '—'; position: absolute; left: 0; color: var(--text-dim);
+    }
+    .paradigm-card.new li::before {
+      content: '→'; position: absolute; left: 0; color: var(--accent-teal);
+    }
+    .paradigm-arrow {
+      font-size: 1.5rem; color: var(--text-dim); text-align: center;
+      font-family: var(--font-mono);
+    }
+
+    /* ───── PROJECT SHOWCASE ───── */
+    .showcase { padding: 8rem 0; }
+    .showcase-nav {
+      display: flex; gap: 0.5rem; margin-bottom: 2rem;
+      overflow-x: auto; padding-bottom: 0.5rem;
+    }
+    .showcase-tab {
+      padding: 0.6rem 1.2rem; border-radius: 8px;
+      font-family: var(--font-mono); font-size: 0.75rem;
+      color: var(--text-secondary); background: transparent;
+      border: 1px solid var(--border); cursor: pointer;
+      transition: all 0.3s ease; white-space: nowrap;
+      letter-spacing: 0.02em;
+    }
+    .showcase-tab:hover { border-color: var(--border-accent); color: var(--text-primary); }
+    .showcase-tab.active {
+      background: var(--accent-teal-dim); border-color: rgba(0, 212, 170, 0.3);
+      color: var(--accent-teal);
+    }
+    .showcase-panel {
+      display: none;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-radius: 16px;
+      overflow: hidden;
       border: 1px solid var(--border);
-      border-radius: 12px; padding: 2rem;
-      transition: all 0.4s ease;
-      position: relative; overflow: hidden;
+      background: var(--bg-card);
+      min-height: 520px;
     }
-    .sf-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, var(--accent-teal), var(--accent-blue));
-      opacity: 0; transition: opacity 0.4s ease;
+    .showcase-panel.active { display: grid; }
+
+    .showcase-terminal-side {
+      border-right: 1px solid var(--border);
+      display: flex; flex-direction: column;
     }
-    .sf-card:hover {
-      background: var(--bg-card-hover);
-      border-color: var(--border-accent);
-      transform: translateY(-4px);
-      box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    .showcase-terminal-side .terminal {
+      border: none; border-radius: 0; box-shadow: none; flex: 1;
+      display: flex; flex-direction: column;
     }
-    .sf-card:hover::before { opacity: 1; }
-    .sf-card-icon {
-      width: 48px; height: 48px; border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      margin-bottom: 1.25rem; font-size: 1.4rem;
-      background: var(--accent-teal-dim);
-      border: 1px solid rgba(0, 212, 170, 0.15);
+    .showcase-terminal-side .terminal-body { flex: 1; min-height: auto; font-size: 0.73rem; }
+
+    .showcase-preview-side { display: flex; flex-direction: column; }
+    .showcase-preview-bar {
+      display: flex; align-items: center; gap: 0.75rem;
+      padding: 0.75rem 1.25rem;
+      background: rgba(255,255,255,0.02);
+      border-bottom: 1px solid var(--border);
     }
-    .sf-card h3 {
-      font-family: var(--font-body); font-weight: 600;
-      font-size: 1.15rem; margin-bottom: 0.75rem;
+    .showcase-preview-bar span {
+      font-family: var(--font-mono); font-size: 0.7rem; color: var(--text-dim);
     }
-    .sf-card p {
-      color: var(--text-secondary); font-size: 0.9rem; line-height: 1.7;
+    .preview-dot {
+      width: 8px; height: 8px; border-radius: 50%; background: var(--accent-teal);
+      animation: pulse 2s infinite;
+    }
+    .showcase-preview { flex: 1; padding: 1.5rem; overflow-y: auto; }
+
+    /* ── Preview: Dashboard ── */
+    .preview-dashboard { font-family: var(--font-body); }
+    .preview-title {
+      font-weight: 600; font-size: 0.95rem; margin-bottom: 1.25rem;
+      display: flex; align-items: center; justify-content: space-between;
+    }
+    .preview-title .live-tag {
+      font-family: var(--font-mono); font-size: 0.6rem;
+      color: var(--accent-teal); background: var(--accent-teal-dim);
+      padding: 0.2rem 0.6rem; border-radius: 100px;
+      border: 1px solid rgba(0, 212, 170, 0.2);
+    }
+    .preview-stats {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem;
       margin-bottom: 1.25rem;
     }
-    .sf-card-terminal {
-      background: var(--bg-terminal);
-      border: 1px solid var(--border);
+    .preview-stat {
+      background: var(--bg-terminal); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.75rem;
+    }
+    .preview-stat-label {
+      font-size: 0.65rem; color: var(--text-dim); text-transform: uppercase;
+      letter-spacing: 0.06em; font-family: var(--font-mono); margin-bottom: 0.3rem;
+    }
+    .preview-stat-value { font-size: 1.3rem; font-weight: 600; }
+    .preview-stat-value.teal { color: var(--accent-teal); }
+    .preview-stat-value.gold { color: var(--accent-gold); }
+    .preview-stat-value.blue { color: var(--accent-blue); }
+    .preview-stat-delta {
+      font-size: 0.65rem; font-family: var(--font-mono);
+      margin-top: 0.15rem;
+    }
+    .preview-stat-delta.up { color: var(--accent-teal); }
+    .preview-stat-delta.down { color: var(--accent-coral); }
+
+    .preview-chart {
+      background: var(--bg-terminal); border: 1px solid var(--border);
+      border-radius: 8px; padding: 1rem; margin-bottom: 1rem;
+    }
+    .preview-chart-title {
+      font-size: 0.7rem; color: var(--text-dim); font-family: var(--font-mono);
+      margin-bottom: 0.75rem; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .chart-bars {
+      display: flex; align-items: flex-end; gap: 6px; height: 100px;
+    }
+    .chart-bar-group {
+      flex: 1; display: flex; flex-direction: column; align-items: center; gap: 4px;
+    }
+    .chart-bar-pair { display: flex; gap: 2px; align-items: flex-end; width: 100%; }
+    .chart-bar {
+      flex: 1; border-radius: 3px 3px 0 0;
+      transition: height 0.6s ease;
+    }
+    .chart-bar.spend { background: var(--text-dim); }
+    .chart-bar.revenue { background: var(--accent-teal); }
+    .chart-bar-label {
+      font-size: 0.55rem; color: var(--text-dim); font-family: var(--font-mono);
+    }
+    .chart-legend {
+      display: flex; gap: 1rem; margin-top: 0.75rem;
+    }
+    .chart-legend-item {
+      display: flex; align-items: center; gap: 0.4rem;
+      font-size: 0.6rem; color: var(--text-secondary); font-family: var(--font-mono);
+    }
+    .chart-legend-dot {
+      width: 8px; height: 8px; border-radius: 2px;
+    }
+
+    /* ── Preview: Table ── */
+    .preview-table {
+      width: 100%; border-collapse: collapse; font-size: 0.72rem;
+    }
+    .preview-table th {
+      text-align: left; padding: 0.5rem 0.6rem;
+      font-family: var(--font-mono); font-weight: 500;
+      color: var(--text-dim); font-size: 0.65rem;
+      text-transform: uppercase; letter-spacing: 0.05em;
+      border-bottom: 1px solid var(--border);
+    }
+    .preview-table td {
+      padding: 0.5rem 0.6rem; color: var(--text-secondary);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+    }
+    .preview-table td:first-child { color: var(--text-primary); font-weight: 400; }
+
+    .score-bar {
+      display: inline-block; height: 6px; border-radius: 3px;
+      background: var(--accent-teal); vertical-align: middle;
+    }
+    .score-label {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      color: var(--text-secondary); margin-left: 0.4rem;
+    }
+
+    /* ── Preview: Email ── */
+    .preview-email {
+      background: #ffffff; border-radius: 8px; padding: 1.25rem;
+      color: #1a1a2e;
+    }
+    .preview-email-header {
+      border-bottom: 2px solid #00d4aa; padding-bottom: 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .preview-email-brand {
+      font-weight: 700; font-size: 0.9rem; color: #0a0e18;
+    }
+    .preview-email-subject {
+      font-size: 1.1rem; font-weight: 600; color: #0a0e18;
+      margin-bottom: 0.3rem; line-height: 1.3;
+    }
+    .preview-email-body {
+      font-size: 0.78rem; line-height: 1.7; color: #4a5568;
+    }
+    .preview-email-cta-btn {
+      display: inline-block; margin-top: 0.75rem;
+      padding: 0.5rem 1.5rem; border-radius: 6px;
+      background: #00d4aa; color: #fff; font-weight: 600;
+      font-size: 0.8rem; text-decoration: none;
+    }
+    .preview-email-footer {
+      margin-top: 0.75rem; padding-top: 0.75rem;
+      border-top: 1px solid #e2e8f0;
+      font-size: 0.65rem; color: #a0aec0;
+    }
+    .preview-email-vars {
+      margin-top: 1rem; background: var(--bg-terminal);
+      border: 1px solid var(--border); border-radius: 8px; padding: 0.75rem;
+    }
+    .preview-email-vars-title {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      color: var(--accent-gold); margin-bottom: 0.5rem;
+    }
+    .preview-email-vars code {
+      display: block; font-family: var(--font-mono); font-size: 0.68rem;
+      color: var(--text-secondary); line-height: 1.8;
+    }
+    .preview-email-vars .var { color: var(--accent-blue); }
+
+    /* ── Preview: SEO ── */
+    .preview-seo-card {
+      background: var(--bg-terminal); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.75rem; margin-bottom: 0.75rem;
+    }
+    .preview-seo-kw {
+      font-weight: 500; font-size: 0.85rem; margin-bottom: 0.3rem;
+    }
+    .preview-seo-meta {
+      display: flex; gap: 1rem; font-family: var(--font-mono);
+      font-size: 0.65rem; color: var(--text-dim);
+    }
+    .preview-seo-meta .high { color: var(--accent-coral); }
+    .preview-seo-meta .med { color: var(--accent-gold); }
+    .preview-seo-meta .low { color: var(--accent-teal); }
+    .preview-seo-gap {
+      background: var(--accent-gold-dim); border: 1px solid rgba(240, 198, 116, 0.2);
+      border-radius: 8px; padding: 0.75rem; font-size: 0.78rem;
+      margin-top: 1rem;
+    }
+    .preview-seo-gap-title {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      color: var(--accent-gold); margin-bottom: 0.4rem;
+      text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .preview-seo-gap li {
+      color: var(--text-secondary); line-height: 1.7; font-size: 0.78rem;
+    }
+
+    /* ── Preview: Subagent ── */
+    .preview-subagent-flow {
+      display: flex; flex-direction: column; gap: 0.75rem;
+    }
+    .subagent-node {
+      background: var(--bg-terminal); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.75rem; position: relative;
+    }
+    .subagent-node.main { border-color: var(--border-accent); }
+    .subagent-node-label {
+      font-family: var(--font-mono); font-size: 0.65rem;
+      margin-bottom: 0.3rem; display: flex; align-items: center; gap: 0.4rem;
+    }
+    .subagent-node-label .tag {
+      padding: 0.1rem 0.4rem; border-radius: 4px; font-size: 0.6rem;
+    }
+    .tag-main { background: var(--accent-teal-dim); color: var(--accent-teal); }
+    .tag-agent { background: var(--accent-blue-dim); color: var(--accent-blue); }
+    .tag-agent-2 { background: var(--accent-purple-dim); color: var(--accent-purple); }
+    .tag-agent-3 { background: var(--accent-gold-dim); color: var(--accent-gold); }
+    .subagent-node p {
+      font-size: 0.75rem; color: var(--text-secondary); line-height: 1.5;
+    }
+    .subagent-children {
+      display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;
+      margin-left: 1rem; border-left: 2px solid var(--border);
+      padding-left: 0.75rem;
+    }
+
+    /* ───── ARCHITECTURE ───── */
+    .architecture { padding: 8rem 0; }
+    .arch-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    }
+    .arch-card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 2rem; transition: all 0.3s ease;
+      position: relative; overflow: hidden;
+    }
+    .arch-card:hover {
+      border-color: var(--border-accent); background: var(--bg-card-hover);
+    }
+    .arch-card.full-width { grid-column: 1 / -1; }
+    .arch-card-header {
+      display: flex; align-items: flex-start; gap: 1rem; margin-bottom: 1.25rem;
+    }
+    .arch-icon {
+      flex-shrink: 0; width: 44px; height: 44px; border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .arch-icon.teal { background: var(--accent-teal-dim); border: 1px solid rgba(0,212,170,0.15); }
+    .arch-icon.coral { background: var(--accent-coral-dim); border: 1px solid rgba(255,107,107,0.15); }
+    .arch-icon.gold { background: var(--accent-gold-dim); border: 1px solid rgba(240,198,116,0.15); }
+    .arch-icon.blue { background: var(--accent-blue-dim); border: 1px solid rgba(74,158,255,0.15); }
+    .arch-icon.purple { background: var(--accent-purple-dim); border: 1px solid rgba(181,123,255,0.15); }
+    .arch-card h3 { font-weight: 600; font-size: 1.1rem; margin-bottom: 0.25rem; }
+    .arch-card .subtitle {
+      font-family: var(--font-mono); font-size: 0.7rem; color: var(--accent-teal);
+      letter-spacing: 0.03em;
+    }
+    .arch-card p {
+      color: var(--text-secondary); font-size: 0.9rem; line-height: 1.75;
+    }
+    .arch-card .callout {
+      margin-top: 1rem; padding: 0.75rem 1rem; border-radius: 8px;
+      font-size: 0.8rem; line-height: 1.7;
+    }
+    .callout-warn {
+      background: var(--accent-coral-dim);
+      border: 1px solid rgba(255, 107, 107, 0.15);
+      color: var(--accent-coral);
+    }
+    .callout-tip {
+      background: var(--accent-teal-dim);
+      border: 1px solid rgba(0, 212, 170, 0.15);
+      color: var(--accent-teal);
+    }
+    .callout-info {
+      background: var(--accent-blue-dim);
+      border: 1px solid rgba(74, 158, 255, 0.15);
+      color: var(--accent-blue);
+    }
+    .arch-terminal {
+      margin-top: 1rem;
+      background: var(--bg-terminal); border: 1px solid var(--border);
       border-radius: 8px; padding: 1rem 1.25rem;
       font-family: var(--font-mono); font-size: 0.72rem;
-      line-height: 1.8; color: var(--text-secondary);
+      line-height: 1.9; color: var(--text-secondary);
     }
-    .sf-card-terminal .prompt { color: var(--accent-teal); }
-    .sf-card-terminal .cmd { color: var(--text-primary); }
+    .arch-terminal .prompt { color: var(--accent-teal); }
+    .arch-terminal .cmd { color: var(--text-primary); }
+    .arch-terminal .comment { color: var(--text-dim); font-style: italic; }
 
-    /* ───── USE CASES ───── */
-    .use-cases { padding: 8rem 0; }
-    .uc-grid {
-      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    /* ── Context meter ── */
+    .context-meter {
+      margin-top: 1.25rem;
+      background: var(--bg-terminal); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1.25rem;
     }
-    .uc-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px; padding: 2rem;
-      transition: all 0.4s ease;
-      position: relative;
+    .context-meter-label {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 0.5rem;
     }
-    .uc-card:hover {
-      background: var(--bg-card-hover);
-      transform: translateY(-4px);
-      box-shadow: 0 16px 40px rgba(0,0,0,0.25);
-    }
-    .uc-card-num {
-      font-family: var(--font-display); font-size: 3rem;
-      font-weight: 900; color: rgba(0, 212, 170, 0.08);
-      line-height: 1; margin-bottom: 1rem;
-    }
-    .uc-card h3 {
-      font-weight: 600; font-size: 1.05rem; margin-bottom: 0.75rem;
-    }
-    .uc-card p {
-      color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7;
-      margin-bottom: 1rem;
-    }
-    .uc-tag {
-      display: inline-block; padding: 0.25rem 0.7rem; border-radius: 100px;
-      font-family: var(--font-mono); font-size: 0.65rem;
-      background: var(--accent-gold-dim);
-      color: var(--accent-gold); border: 1px solid rgba(240, 198, 116, 0.15);
-    }
-
-    /* ───── WORKFLOW DEMO ───── */
-    .workflow { padding: 8rem 0; }
-    .workflow-grid {
-      display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem;
-      align-items: start;
-    }
-    .workflow-steps { display: flex; flex-direction: column; gap: 0.5rem; }
-    .wf-step {
-      padding: 1.25rem 1.5rem; border-radius: 10px;
-      border: 1px solid transparent;
-      cursor: pointer; transition: all 0.3s ease;
-    }
-    .wf-step.active {
-      background: var(--bg-card);
-      border-color: var(--border-accent);
-    }
-    .wf-step-num {
+    .context-meter-label span {
       font-family: var(--font-mono); font-size: 0.7rem;
-      color: var(--accent-teal); margin-bottom: 0.4rem;
-      letter-spacing: 0.06em;
     }
-    .wf-step h4 {
-      font-weight: 600; font-size: 1rem; margin-bottom: 0.3rem;
-      transition: color 0.3s;
+    .context-meter-label .label { color: var(--text-dim); }
+    .context-meter-label .value { color: var(--accent-gold); }
+    .meter-track {
+      height: 8px; border-radius: 4px; background: rgba(255,255,255,0.05);
+      overflow: hidden; margin-bottom: 0.75rem;
     }
-    .wf-step:not(.active) h4 { color: var(--text-secondary); }
-    .wf-step p {
-      font-size: 0.85rem; color: var(--text-dim);
-      line-height: 1.6; display: none;
+    .meter-fill {
+      height: 100%; border-radius: 4px;
+      transition: width 0.8s ease;
     }
-    .wf-step.active p { display: block; color: var(--text-secondary); }
-    .workflow-terminal { position: sticky; top: 6rem; }
-
-    /* ───── BEST PRACTICES ───── */
-    .practices { padding: 8rem 0; }
-    .bp-grid {
-      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem;
-    }
-    .bp-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px; padding: 2rem;
-      display: flex; gap: 1.25rem;
-      transition: all 0.3s ease;
-    }
-    .bp-card:hover {
-      border-color: var(--border-accent);
-      background: var(--bg-card-hover);
-    }
-    .bp-icon {
-      flex-shrink: 0; width: 40px; height: 40px;
-      display: flex; align-items: center; justify-content: center;
-      border-radius: 8px; font-size: 1.1rem;
-      background: var(--accent-teal-dim);
-      border: 1px solid rgba(0, 212, 170, 0.12);
-    }
-    .bp-card h3 {
-      font-weight: 600; font-size: 1rem; margin-bottom: 0.5rem;
-    }
-    .bp-card p {
-      color: var(--text-secondary); font-size: 0.88rem; line-height: 1.7;
+    .meter-fill.ok { background: var(--accent-teal); }
+    .meter-fill.warn { background: var(--accent-gold); }
+    .meter-fill.danger { background: var(--accent-coral); }
+    .meter-stages {
+      display: flex; justify-content: space-between;
+      font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-dim);
     }
 
     /* ───── CTA ───── */
-    .cta-section {
-      padding: 8rem 0; text-align: center;
-    }
+    .cta-section { padding: 8rem 0; text-align: center; }
     .cta-box {
       background: linear-gradient(135deg, var(--bg-card) 0%, rgba(0, 212, 170, 0.05) 100%);
       border: 1px solid var(--border-accent);
@@ -403,8 +635,7 @@
       border-top: 1px solid var(--border);
     }
     footer p {
-      font-family: var(--font-mono); font-size: 0.75rem;
-      color: var(--text-dim);
+      font-family: var(--font-mono); font-size: 0.75rem; color: var(--text-dim);
     }
 
     /* ───── SCROLL ANIMATIONS ───── */
@@ -412,54 +643,49 @@
       opacity: 0; transform: translateY(30px);
       transition: opacity 0.7s ease, transform 0.7s ease;
     }
-    .reveal.visible {
-      opacity: 1; transform: translateY(0);
-    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
     .reveal-delay-1 { transition-delay: 0.1s; }
     .reveal-delay-2 { transition-delay: 0.2s; }
     .reveal-delay-3 { transition-delay: 0.3s; }
     .reveal-delay-4 { transition-delay: 0.4s; }
-    .reveal-delay-5 { transition-delay: 0.5s; }
 
     /* ───── RESPONSIVE ───── */
-    @media (max-width: 900px) {
-      .hero-grid, .sf-grid, .workflow-grid { grid-template-columns: 1fr; }
-      .uc-grid { grid-template-columns: 1fr 1fr; }
-      .bp-grid { grid-template-columns: 1fr; }
+    @media (max-width: 1000px) {
+      .hero-grid, .paradigm-grid, .arch-grid { grid-template-columns: 1fr; }
+      .showcase-panel { grid-template-columns: 1fr; }
+      .showcase-terminal-side { border-right: none; border-bottom: 1px solid var(--border); }
+      .paradigm-arrow { transform: rotate(90deg); }
+      .subagent-children { grid-template-columns: 1fr; }
       nav ul { display: none; }
-    }
-    @media (max-width: 600px) {
-      .uc-grid { grid-template-columns: 1fr; }
+      .arch-card.full-width { grid-column: auto; }
     }
   </style>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
   <div class="nav-inner">
-    <div class="logo">claude-code <span>~/marketing</span></div>
+    <div class="logo">claude-code <span>~/for-ian</span></div>
     <ul>
-      <li><a href="#salesforce">Salesforce</a></li>
-      <li><a href="#use-cases">Use Cases</a></li>
-      <li><a href="#workflow">How It Works</a></li>
-      <li><a href="#practices">Best Practices</a></li>
+      <li><a href="#paradigm">The Shift</a></li>
+      <li><a href="#showcase">Build Gallery</a></li>
+      <li><a href="#architecture">How to Think</a></li>
     </ul>
   </div>
 </nav>
 
-<!-- HERO -->
+<!-- ═══════ HERO ═══════ -->
 <section class="hero">
   <div class="container">
     <div class="hero-grid">
       <div>
-        <div class="hero-badge">DEMO FOR IAN</div>
-        <h1>Your marketing stack,<br>powered by <em>Claude&nbsp;Code</em></h1>
+        <div class="hero-badge">THE 201</div>
+        <h1>You've used AI to write copy.<br>Now use it to <em>build&nbsp;tools.</em></h1>
         <p class="hero-sub">
-          A CLI-based AI developer that builds tools, automates workflows, and connects your data — from <strong>Salesforce pipelines</strong> to <strong>campaign analytics</strong> — using plain English.
+          Claude Code is a <strong>CLI-based AI developer</strong> that lives in your terminal. It doesn't just generate text — it writes code, connects to your systems, builds dashboards, and deploys them. In plain English.
         </p>
-        <a href="#salesforce" class="hero-cta">
-          See what's possible
+        <a href="#paradigm" class="hero-cta">
+          See the difference
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
         </a>
       </div>
@@ -476,220 +702,717 @@
   </div>
 </section>
 
-<!-- SALESFORCE -->
-<section class="salesforce" id="salesforce">
+<!-- ═══════ PARADIGM SHIFT ═══════ -->
+<section class="paradigm" id="paradigm">
   <div class="container">
-    <div class="section-header reveal">
-      <span class="section-tag">Salesforce + Claude Code</span>
-      <h2>Your CRM, supercharged</h2>
-      <p>Connect Claude Code to Salesforce via MCP and build custom tooling on top of your live data — no Salesforce developer needed.</p>
-    </div>
-    <div class="sf-grid">
-      <div class="sf-card reveal reveal-delay-1">
-        <div class="sf-card-icon">📊</div>
-        <h3>Pipeline Analytics Dashboard</h3>
-        <p>Ask Claude Code to build a real-time dashboard that pulls from your Salesforce opportunities, stages, and close dates — deployed in minutes.</p>
-        <div class="sf-card-terminal">
-          <span class="prompt">$</span> <span class="cmd">claude "Build me a pipeline dashboard</span><br>
-          <span class="cmd">&nbsp; that shows deals by stage, expected</span><br>
-          <span class="cmd">&nbsp; close dates, and revenue forecast</span><br>
-          <span class="cmd">&nbsp; from our Salesforce data"</span>
-        </div>
+    <div class="paradigm-grid reveal">
+      <div class="paradigm-card old">
+        <h3>CHAT AI (what you know)</h3>
+        <h4>Generates text in a browser</h4>
+        <ul>
+          <li>You paste data in, get text back</li>
+          <li>Can't connect to your actual systems</li>
+          <li>Outputs live in a chat window</li>
+          <li>Each conversation starts from scratch</li>
+          <li>You copy-paste results into other tools</li>
+        </ul>
       </div>
-      <div class="sf-card reveal reveal-delay-2">
-        <div class="sf-card-icon">🎯</div>
-        <h3>Lead Scoring Automation</h3>
-        <p>Build custom lead scoring models that analyze engagement signals, firmographic data, and historical conversion patterns from your CRM.</p>
-        <div class="sf-card-terminal">
-          <span class="prompt">$</span> <span class="cmd">claude "Create a lead scoring script</span><br>
-          <span class="cmd">&nbsp; that weighs website visits, email</span><br>
-          <span class="cmd">&nbsp; opens, company size, and industry</span><br>
-          <span class="cmd">&nbsp; against our historical win rates"</span>
-        </div>
-      </div>
-      <div class="sf-card reveal reveal-delay-3">
-        <div class="sf-card-icon">🔄</div>
-        <h3>Campaign-to-Revenue Attribution</h3>
-        <p>Map marketing campaigns to closed-won revenue through Salesforce campaign members and opportunity contact roles. See what's actually driving pipeline.</p>
-        <div class="sf-card-terminal">
-          <span class="prompt">$</span> <span class="cmd">claude "Build attribution reporting</span><br>
-          <span class="cmd">&nbsp; that traces our campaigns through</span><br>
-          <span class="cmd">&nbsp; to closed-won opportunities with</span><br>
-          <span class="cmd">&nbsp; multi-touch weighting"</span>
-        </div>
-      </div>
-      <div class="sf-card reveal reveal-delay-4">
-        <div class="sf-card-icon">⚡</div>
-        <h3>Automated Data Hygiene</h3>
-        <p>Deduplicate contacts, normalize company names, enrich missing fields, and flag stale leads — all running on a schedule you define.</p>
-        <div class="sf-card-terminal">
-          <span class="prompt">$</span> <span class="cmd">claude "Write a cleanup script that</span><br>
-          <span class="cmd">&nbsp; finds duplicate contacts, merges</span><br>
-          <span class="cmd">&nbsp; them, and flags leads with no</span><br>
-          <span class="cmd">&nbsp; activity in 90 days"</span>
-        </div>
+      <div class="paradigm-arrow">→</div>
+      <div class="paradigm-card new">
+        <h3>CLI AI (the paradigm shift)</h3>
+        <h4>Builds software on your machine</h4>
+        <ul>
+          <li>Reads and writes files directly on your computer</li>
+          <li>Connects to Salesforce, databases, APIs live</li>
+          <li>Outputs are real apps, scripts, and dashboards</li>
+          <li>CLAUDE.md gives it persistent project memory</li>
+          <li>Deploys working tools your team can use</li>
+        </ul>
       </div>
     </div>
   </div>
 </section>
 
-<!-- USE CASES -->
-<section class="use-cases" id="use-cases">
-  <div class="container">
+<!-- ═══════ PROJECT SHOWCASE ═══════ -->
+<section class="showcase" id="showcase">
+  <div class="container-wide">
     <div class="section-header reveal">
-      <span class="section-tag">Beyond CRM</span>
-      <h2>What marketers are building</h2>
-      <p>Claude Code isn't just for developers. It's for anyone who needs custom tools built fast and iterated on in real time.</p>
+      <span class="section-tag">Build Gallery</span>
+      <h2>What you'd say, what you'd get</h2>
+      <p>Click a project to see the terminal conversation on the left and the actual output on the right. Every one of these is buildable in a single session.</p>
     </div>
-    <div class="uc-grid">
-      <div class="uc-card reveal reveal-delay-1">
-        <div class="uc-card-num">01</div>
-        <h3>Content Pipeline Automation</h3>
-        <p>Generate briefs, draft copy, route approvals, and publish — all orchestrated through Claude Code scripts connected to your CMS.</p>
-        <span class="uc-tag">workflow</span>
-      </div>
-      <div class="uc-card reveal reveal-delay-2">
-        <div class="uc-card-num">02</div>
-        <h3>A/B Test Analysis</h3>
-        <p>Feed experiment data to Claude Code and get statistical significance calculations, winner recommendations, and next-test suggestions.</p>
-        <span class="uc-tag">analytics</span>
-      </div>
-      <div class="uc-card reveal reveal-delay-3">
-        <div class="uc-card-num">03</div>
-        <h3>SEO Tooling</h3>
-        <p>Build keyword research tools, content gap analyzers, and rank trackers that pull from Search Console and your preferred SEO APIs.</p>
-        <span class="uc-tag">growth</span>
-      </div>
-      <div class="uc-card reveal reveal-delay-4">
-        <div class="uc-card-num">04</div>
-        <h3>Email Campaign Builder</h3>
-        <p>Generate HTML email templates, personalization logic, and send-time optimization scripts — tested across clients before you send.</p>
-        <span class="uc-tag">email</span>
-      </div>
-      <div class="uc-card reveal reveal-delay-5">
-        <div class="uc-card-num">05</div>
-        <h3>Social Analytics Dashboards</h3>
-        <p>Aggregate data from multiple platforms into a single view. Track engagement trends, audience growth, and content performance.</p>
-        <span class="uc-tag">social</span>
-      </div>
-      <div class="uc-card reveal">
-        <div class="uc-card-num">06</div>
-        <h3>Data Warehouse Queries</h3>
-        <p>Ask questions about your marketing data in plain English. Claude Code writes the SQL, runs it, and visualizes the results.</p>
-        <span class="uc-tag">data</span>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- WORKFLOW -->
-<section class="workflow" id="workflow">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-tag">How It Works</span>
-      <h2>From idea to tool in minutes</h2>
-      <p>No coding experience needed. Describe what you want, iterate on the output, and deploy.</p>
+    <div class="showcase-nav reveal" id="showcase-nav">
+      <button class="showcase-tab active" data-panel="sf-dash">Salesforce Dashboard</button>
+      <button class="showcase-tab" data-panel="lead-score">Lead Scoring</button>
+      <button class="showcase-tab" data-panel="email-gen">Email Generator</button>
+      <button class="showcase-tab" data-panel="seo-audit">SEO Audit Tool</button>
+      <button class="showcase-tab" data-panel="ab-test">A/B Test Analyzer</button>
+      <button class="showcase-tab" data-panel="subagent">Subagent Workflow</button>
     </div>
-    <div class="workflow-grid reveal">
-      <div class="workflow-steps" id="wf-steps">
-        <div class="wf-step active" data-step="0">
-          <div class="wf-step-num">01</div>
-          <h4>Describe your need</h4>
-          <p>Tell Claude Code what you want in plain English. Be specific about data sources, outputs, and who will use it.</p>
-        </div>
-        <div class="wf-step" data-step="1">
-          <div class="wf-step-num">02</div>
-          <h4>Claude Code builds it</h4>
-          <p>It reads your existing code, writes new files, installs dependencies, and connects to your APIs — all autonomously.</p>
-        </div>
-        <div class="wf-step" data-step="2">
-          <div class="wf-step-num">03</div>
-          <h4>Iterate in real time</h4>
-          <p>"Make the chart blue." "Add a filter for date range." "Export to CSV." Each change happens in seconds.</p>
-        </div>
-        <div class="wf-step" data-step="3">
-          <div class="wf-step-num">04</div>
-          <h4>Deploy and share</h4>
-          <p>Push to Vercel, Netlify, or your internal tools platform. Share a URL with your team. Done.</p>
-        </div>
-      </div>
-      <div class="workflow-terminal">
-        <div class="terminal" id="wf-terminal">
+
+    <!-- ── SF Dashboard ── -->
+    <div class="showcase-panel active reveal" id="panel-sf-dash">
+      <div class="showcase-terminal-side">
+        <div class="terminal" style="border:none;border-radius:0;box-shadow:none;flex:1;display:flex;flex-direction:column;">
           <div class="terminal-bar">
             <div class="terminal-dot r"></div>
             <div class="terminal-dot y"></div>
             <div class="terminal-dot g"></div>
-            <div class="terminal-title">claude — ~/campaign-dashboard</div>
+            <div class="terminal-title">claude — ~/pipeline-dash</div>
           </div>
-          <div class="terminal-body" id="wf-term-body"></div>
+          <div class="terminal-body" style="flex:1;min-height:auto;font-size:0.73rem;">
+            <div class="terminal-line" style="opacity:1"><span class="cmd">$ claude</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="comment"># Salesforce MCP connected</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">> Build a pipeline dashboard from our</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  Salesforce opportunities. Show deal</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  count and value by stage, revenue</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  forecast, and top 10 deals by size.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  Include a date range picker.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Querying Opportunity schema via MCP</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Found 2,341 opportunities</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing src/Dashboard.tsx</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing src/PipelineChart.tsx</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing src/DealTable.tsx</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing src/api/salesforce.ts</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Dev server at localhost:3000</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">> Make the bars match our brand — navy</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  and teal. Add a CSV export button.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Editing src/PipelineChart.tsx</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Editing src/DealTable.tsx</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Updated — refresh to see changes</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-preview-side">
+        <div class="showcase-preview-bar">
+          <div class="preview-dot"></div>
+          <span>localhost:3000 — Pipeline Dashboard</span>
+        </div>
+        <div class="showcase-preview">
+          <div class="preview-dashboard">
+            <div class="preview-title">
+              Pipeline Overview — Q1 2026
+              <span class="live-tag">LIVE FROM SF</span>
+            </div>
+            <div class="preview-stats">
+              <div class="preview-stat">
+                <div class="preview-stat-label">Open Pipeline</div>
+                <div class="preview-stat-value teal">$4.2M</div>
+                <div class="preview-stat-delta up">↑ 18% vs Q4</div>
+              </div>
+              <div class="preview-stat">
+                <div class="preview-stat-label">Avg Deal Size</div>
+                <div class="preview-stat-value gold">$127K</div>
+                <div class="preview-stat-delta up">↑ 6%</div>
+              </div>
+              <div class="preview-stat">
+                <div class="preview-stat-label">Win Rate</div>
+                <div class="preview-stat-value blue">34%</div>
+                <div class="preview-stat-delta down">↓ 2pts</div>
+              </div>
+            </div>
+            <div class="preview-chart">
+              <div class="preview-chart-title">Deals by Stage — Value ($K)</div>
+              <div class="chart-bars">
+                <div class="chart-bar-group">
+                  <div class="chart-bar-pair"><div class="chart-bar revenue" style="height:90px"></div></div>
+                  <div class="chart-bar-label">Prospect</div>
+                </div>
+                <div class="chart-bar-group">
+                  <div class="chart-bar-pair"><div class="chart-bar revenue" style="height:70px"></div></div>
+                  <div class="chart-bar-label">Qualify</div>
+                </div>
+                <div class="chart-bar-group">
+                  <div class="chart-bar-pair"><div class="chart-bar revenue" style="height:55px"></div></div>
+                  <div class="chart-bar-label">Propose</div>
+                </div>
+                <div class="chart-bar-group">
+                  <div class="chart-bar-pair"><div class="chart-bar revenue" style="height:35px"></div></div>
+                  <div class="chart-bar-label">Negotiate</div>
+                </div>
+                <div class="chart-bar-group">
+                  <div class="chart-bar-pair"><div class="chart-bar" style="height:50px;background:var(--accent-gold)"></div></div>
+                  <div class="chart-bar-label">Won</div>
+                </div>
+              </div>
+            </div>
+            <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--text-dim);display:flex;justify-content:space-between;align-items:center">
+              <span>Showing 2,341 opportunities</span>
+              <span style="color:var(--accent-teal);cursor:pointer">⬇ Export CSV</span>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- ── Lead Scoring ── -->
+    <div class="showcase-panel" id="panel-lead-score">
+      <div class="showcase-terminal-side">
+        <div class="terminal" style="border:none;border-radius:0;box-shadow:none;flex:1;display:flex;flex-direction:column;">
+          <div class="terminal-bar">
+            <div class="terminal-dot r"></div>
+            <div class="terminal-dot y"></div>
+            <div class="terminal-dot g"></div>
+            <div class="terminal-title">claude — ~/lead-scoring</div>
+          </div>
+          <div class="terminal-body" style="flex:1;min-height:auto;font-size:0.73rem;">
+            <div class="terminal-line" style="opacity:1"><span class="cmd">> Build a lead scoring system.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  Pull leads from Salesforce. Score on:</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  - website visits (from GA4)</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  - email engagement (opens + clicks)</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  - company size and industry</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  - days since last activity</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  Weight against our historical wins.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Reading Lead + Opportunity history</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Analyzing 847 converted leads for</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">  signal correlation with win rate</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing src/scoring-model.ts</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing src/score-dashboard.tsx</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing src/sync-to-salesforce.ts</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Scored 3,217 active leads</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="warn">→ Ready to write scores back to SF?</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-preview-side">
+        <div class="showcase-preview-bar">
+          <div class="preview-dot"></div>
+          <span>localhost:3000 — Lead Score Rankings</span>
+        </div>
+        <div class="showcase-preview">
+          <div class="preview-dashboard">
+            <div class="preview-title">Lead Scoring — Active Leads<span class="live-tag">3,217 SCORED</span></div>
+            <table class="preview-table">
+              <thead>
+                <tr><th>Lead</th><th>Company</th><th>Score</th><th>Top Signal</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Sarah Chen</td>
+                  <td style="color:var(--text-secondary)">Acme Corp</td>
+                  <td><span class="score-bar" style="width:92px"></span><span class="score-label">92</span></td>
+                  <td style="color:var(--text-secondary)">14 page views this week</td>
+                </tr>
+                <tr>
+                  <td>Mike Torres</td>
+                  <td style="color:var(--text-secondary)">Globex Inc</td>
+                  <td><span class="score-bar" style="width:87px"></span><span class="score-label">87</span></td>
+                  <td style="color:var(--text-secondary)">Opened 5/5 emails</td>
+                </tr>
+                <tr>
+                  <td>Lisa Park</td>
+                  <td style="color:var(--text-secondary)">Initech</td>
+                  <td><span class="score-bar" style="width:74px"></span><span class="score-label">74</span></td>
+                  <td style="color:var(--text-secondary)">Enterprise, matching ICP</td>
+                </tr>
+                <tr>
+                  <td>James Wright</td>
+                  <td style="color:var(--text-secondary)">Umbrella Co</td>
+                  <td><span class="score-bar" style="width:61px;background:var(--accent-gold)"></span><span class="score-label">61</span></td>
+                  <td style="color:var(--text-secondary)">Downloaded whitepaper</td>
+                </tr>
+                <tr>
+                  <td>Anna Kowalski</td>
+                  <td style="color:var(--text-secondary)">Wonka Ltd</td>
+                  <td><span class="score-bar" style="width:43px;background:var(--accent-gold)"></span><span class="score-label">43</span></td>
+                  <td style="color:var(--text-secondary)">No activity in 21 days</td>
+                </tr>
+              </tbody>
+            </table>
+            <div style="margin-top:1rem;padding:0.75rem;background:var(--bg-terminal);border:1px solid var(--border);border-radius:8px">
+              <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--accent-teal);margin-bottom:0.4rem">MODEL WEIGHTS</div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.3rem;font-size:0.72rem;color:var(--text-secondary)">
+                <span>Web activity: <strong style="color:var(--text-primary)">35%</strong></span>
+                <span>Email engagement: <strong style="color:var(--text-primary)">25%</strong></span>
+                <span>Firmographics: <strong style="color:var(--text-primary)">20%</strong></span>
+                <span>Recency: <strong style="color:var(--text-primary)">20%</strong></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Email Generator ── -->
+    <div class="showcase-panel" id="panel-email-gen">
+      <div class="showcase-terminal-side">
+        <div class="terminal" style="border:none;border-radius:0;box-shadow:none;flex:1;display:flex;flex-direction:column;">
+          <div class="terminal-bar">
+            <div class="terminal-dot r"></div>
+            <div class="terminal-dot y"></div>
+            <div class="terminal-dot g"></div>
+            <div class="terminal-title">claude — ~/email-templates</div>
+          </div>
+          <div class="terminal-body" style="flex:1;min-height:auto;font-size:0.73rem;">
+            <div class="terminal-line" style="opacity:1"><span class="cmd">> Build a nurture email sequence for</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  leads who downloaded our Q1 report.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  3 emails, spaced 4 days apart.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  Personalize with first name, company,</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  and industry. Our brand is professional</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  but warm. Include HTML templates</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  tested for Gmail + Outlook rendering.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Reading brand guidelines from CLAUDE.md</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing emails/01-thank-you.html</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing emails/02-case-study.html</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing emails/03-cta-demo.html</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing emails/variables.json</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Tested inline CSS for Gmail compat</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ All 3 templates pass Litmus checks</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-preview-side">
+        <div class="showcase-preview-bar">
+          <div class="preview-dot"></div>
+          <span>Preview — Email 1 of 3: Thank You</span>
+        </div>
+        <div class="showcase-preview">
+          <div class="preview-email">
+            <div class="preview-email-header">
+              <div class="preview-email-brand">ACME MARKETING</div>
+            </div>
+            <div class="preview-email-subject">Thanks for downloading the Q1 report, {{first_name}}</div>
+            <div class="preview-email-body">
+              <p>Hi {{first_name}},</p>
+              <p style="margin-top:0.5rem">Thanks for grabbing our Q1 Market Trends report. Given what we're seeing in the {{industry}} space, I think you'll find the section on buyer behavior shifts especially relevant to what {{company}} is doing.</p>
+              <p style="margin-top:0.5rem">A few highlights worth flagging:</p>
+              <ul style="margin:0.5rem 0;padding-left:1.2rem;color:#4a5568">
+                <li>Pipeline velocity increased 23% for teams using intent data</li>
+                <li>The avg. enterprise deal cycle shortened by 12 days</li>
+                <li>Content-led nurture outperformed cold outreach 3:1</li>
+              </ul>
+              <a class="preview-email-cta-btn" href="#">See how teams like yours are adapting →</a>
+              <div class="preview-email-footer">
+                You're receiving this because you downloaded our Q1 report.
+                <br>Unsubscribe • Manage preferences
+              </div>
+            </div>
+          </div>
+          <div class="preview-email-vars">
+            <div class="preview-email-vars-title">PERSONALIZATION VARIABLES</div>
+            <code>
+              <span class="var">{{first_name}}</span> → Salesforce Lead.FirstName<br>
+              <span class="var">{{company}}</span> &nbsp;&nbsp;&nbsp;→ Salesforce Lead.Company<br>
+              <span class="var">{{industry}}</span> &nbsp;→ Salesforce Lead.Industry
+            </code>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── SEO Audit ── -->
+    <div class="showcase-panel" id="panel-seo-audit">
+      <div class="showcase-terminal-side">
+        <div class="terminal" style="border:none;border-radius:0;box-shadow:none;flex:1;display:flex;flex-direction:column;">
+          <div class="terminal-bar">
+            <div class="terminal-dot r"></div>
+            <div class="terminal-dot y"></div>
+            <div class="terminal-dot g"></div>
+            <div class="terminal-title">claude — ~/seo-tools</div>
+          </div>
+          <div class="terminal-body" style="flex:1;min-height:auto;font-size:0.73rem;">
+            <div class="terminal-line" style="opacity:1"><span class="cmd">> Build an SEO content audit tool.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  Connect to Search Console via MCP.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  For our top 50 pages, show:</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  - ranking keywords + positions</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  - content gaps vs top 3 competitors</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  - suggested new articles to write</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Connected to Search Console MCP</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Pulled 90 days of query data</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Scraped competitor sitemaps</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing src/AuditDashboard.tsx</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing src/GapAnalysis.tsx</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing src/ContentBriefs.tsx</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Found 23 content gaps</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="warn">→ 7 quick-win keywords (pos 11-20)</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-preview-side">
+        <div class="showcase-preview-bar">
+          <div class="preview-dot"></div>
+          <span>localhost:3000 — SEO Content Audit</span>
+        </div>
+        <div class="showcase-preview">
+          <div class="preview-dashboard">
+            <div class="preview-title">Keyword Rankings<span class="live-tag">SEARCH CONSOLE</span></div>
+            <div class="preview-seo-card">
+              <div class="preview-seo-kw">"marketing automation roi"</div>
+              <div class="preview-seo-meta">
+                <span>Position: <strong style="color:var(--accent-teal)">#7</strong></span>
+                <span>Clicks: 342/mo</span>
+                <span>Trend: <span class="low">↑ 4 pos</span></span>
+              </div>
+            </div>
+            <div class="preview-seo-card">
+              <div class="preview-seo-kw">"salesforce campaign attribution"</div>
+              <div class="preview-seo-meta">
+                <span>Position: <strong style="color:var(--accent-gold)">#14</strong></span>
+                <span>Clicks: 89/mo</span>
+                <span>Trend: <span class="med">— flat</span></span>
+              </div>
+            </div>
+            <div class="preview-seo-card">
+              <div class="preview-seo-kw">"lead scoring best practices 2026"</div>
+              <div class="preview-seo-meta">
+                <span>Position: <strong style="color:var(--accent-coral)">#31</strong></span>
+                <span>Clicks: 12/mo</span>
+                <span>Trend: <span class="high">↓ 8 pos</span></span>
+              </div>
+            </div>
+            <div class="preview-seo-gap">
+              <div class="preview-seo-gap-title">Content Gaps — Competitors Rank, You Don't</div>
+              <ul style="padding-left:1rem">
+                <li>"multi-touch attribution model comparison"</li>
+                <li>"marketing ops salary benchmarks 2026"</li>
+                <li>"salesforce pardot alternatives"</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── A/B Test ── -->
+    <div class="showcase-panel" id="panel-ab-test">
+      <div class="showcase-terminal-side">
+        <div class="terminal" style="border:none;border-radius:0;box-shadow:none;flex:1;display:flex;flex-direction:column;">
+          <div class="terminal-bar">
+            <div class="terminal-dot r"></div>
+            <div class="terminal-dot y"></div>
+            <div class="terminal-dot g"></div>
+            <div class="terminal-title">claude — ~/experiments</div>
+          </div>
+          <div class="terminal-body" style="flex:1;min-height:auto;font-size:0.73rem;">
+            <div class="terminal-line" style="opacity:1"><span class="cmd">> Analyze our latest landing page test.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  Data is in data/lp-test-march.csv.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  Columns: variant, visits, signups,</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  revenue. Tell me if we have a winner</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  and what to test next.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Read 14,832 rows across 3 variants</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">  Running chi-squared test on signup</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">  rate and t-test on revenue/visitor...</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Variant B wins on signups (p=0.003)</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="warn">⚠ Revenue difference not significant</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="warn">  (p=0.14) — need 2 more weeks of data</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing analysis/results.html</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Report with charts ready to share</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-preview-side">
+        <div class="showcase-preview-bar">
+          <div class="preview-dot"></div>
+          <span>analysis/results.html — Test Results</span>
+        </div>
+        <div class="showcase-preview">
+          <div class="preview-dashboard">
+            <div class="preview-title">A/B Test: Landing Page — March 2026</div>
+            <div class="preview-stats">
+              <div class="preview-stat">
+                <div class="preview-stat-label">Variant A (Control)</div>
+                <div class="preview-stat-value" style="font-size:1.1rem">3.2% signup</div>
+                <div class="preview-stat-delta" style="color:var(--text-dim)">4,944 visitors</div>
+              </div>
+              <div class="preview-stat" style="border-color:var(--border-accent)">
+                <div class="preview-stat-label" style="color:var(--accent-teal)">Variant B ★ Winner</div>
+                <div class="preview-stat-value teal" style="font-size:1.1rem">4.7% signup</div>
+                <div class="preview-stat-delta up">+47% vs control</div>
+              </div>
+              <div class="preview-stat">
+                <div class="preview-stat-label">Variant C</div>
+                <div class="preview-stat-value" style="font-size:1.1rem">3.5% signup</div>
+                <div class="preview-stat-delta" style="color:var(--text-dim)">4,944 visitors</div>
+              </div>
+            </div>
+            <div class="preview-chart">
+              <div class="preview-chart-title">Statistical Confidence</div>
+              <div style="display:flex;flex-direction:column;gap:0.5rem">
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:0.7rem;margin-bottom:0.25rem">
+                    <span style="color:var(--text-secondary)">Signup rate (B vs A)</span>
+                    <span style="color:var(--accent-teal);font-family:var(--font-mono)">p = 0.003 ✓</span>
+                  </div>
+                  <div class="meter-track"><div class="meter-fill ok" style="width:99.7%"></div></div>
+                </div>
+                <div>
+                  <div style="display:flex;justify-content:space-between;font-size:0.7rem;margin-bottom:0.25rem">
+                    <span style="color:var(--text-secondary)">Revenue/visitor (B vs A)</span>
+                    <span style="color:var(--accent-gold);font-family:var(--font-mono)">p = 0.14 ✗</span>
+                  </div>
+                  <div class="meter-track"><div class="meter-fill warn" style="width:86%"></div></div>
+                </div>
+              </div>
+            </div>
+            <div style="background:var(--accent-gold-dim);border:1px solid rgba(240,198,116,0.2);border-radius:8px;padding:0.75rem;font-size:0.78rem">
+              <div style="font-family:var(--font-mono);font-size:0.65rem;color:var(--accent-gold);margin-bottom:0.3rem">RECOMMENDATION</div>
+              <span style="color:var(--text-secondary)">Ship Variant B for signup rate. Continue tracking revenue for 2 more weeks before full rollout. Next test: CTA button copy ("Start Free" vs "See Demo").</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── Subagent Workflow ── -->
+    <div class="showcase-panel" id="panel-subagent">
+      <div class="showcase-terminal-side">
+        <div class="terminal" style="border:none;border-radius:0;box-shadow:none;flex:1;display:flex;flex-direction:column;">
+          <div class="terminal-bar">
+            <div class="terminal-dot r"></div>
+            <div class="terminal-dot y"></div>
+            <div class="terminal-dot g"></div>
+            <div class="terminal-title">claude — ~/quarterly-review</div>
+          </div>
+          <div class="terminal-body" style="flex:1;min-height:auto;font-size:0.73rem;">
+            <div class="terminal-line" style="opacity:1"><span class="cmd">> Build our Q1 marketing review deck.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  Pull pipeline data from Salesforce,</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  web analytics from GA4, ad spend from</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  Google Ads, and social from Sprout.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  I need charts, exec summary, and</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="cmd">  recommendations for Q2.</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="comment"># This is a big task — Claude Code</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="comment"># spins up parallel subagents:</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Spawning 3 research agents...</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Agent 1: Pulling Salesforce pipeline</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Agent 2: Pulling GA4 + Google Ads</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Agent 3: Pulling Sprout Social data</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="output">&nbsp;</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ All 3 agents complete (12s total)</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ Main agent synthesizing results...</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="file">  Writing review/q1-deck.html</span></div>
+            <div class="terminal-line" style="opacity:1"><span class="success">✓ 18-slide deck ready</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-preview-side">
+        <div class="showcase-preview-bar">
+          <div class="preview-dot"></div>
+          <span>Subagent Architecture — How It Works</span>
+        </div>
+        <div class="showcase-preview">
+          <div class="preview-dashboard">
+            <div class="preview-title">Parallel Subagent Workflow</div>
+            <div class="preview-subagent-flow">
+              <div class="subagent-node main">
+                <div class="subagent-node-label">
+                  <span class="tag tag-main">MAIN AGENT</span> Orchestrator
+                </div>
+                <p>Receives your request, breaks it into independent research tasks, and dispatches subagents in parallel. Synthesizes results when all return.</p>
+              </div>
+              <div class="subagent-children">
+                <div class="subagent-node">
+                  <div class="subagent-node-label"><span class="tag tag-agent">AGENT 1</span></div>
+                  <p>Salesforce MCP → pipeline data, win rates, deal velocity</p>
+                </div>
+                <div class="subagent-node">
+                  <div class="subagent-node-label"><span class="tag tag-agent-2">AGENT 2</span></div>
+                  <p>GA4 + Ads API → traffic, conversions, ROAS by channel</p>
+                </div>
+                <div class="subagent-node">
+                  <div class="subagent-node-label"><span class="tag tag-agent-3">AGENT 3</span></div>
+                  <p>Sprout API → engagement, follower growth, top content</p>
+                </div>
+              </div>
+              <div class="subagent-node main">
+                <div class="subagent-node-label">
+                  <span class="tag tag-main">MAIN AGENT</span> Synthesis
+                </div>
+                <p>Combines all data into a cohesive deck with cross-channel insights. Each agent ran independently — total time ~12 seconds, not 3 minutes sequential.</p>
+              </div>
+            </div>
+            <div style="margin-top:1rem;padding:0.75rem;background:var(--accent-teal-dim);border:1px solid rgba(0,212,170,0.15);border-radius:8px;font-size:0.78rem;color:var(--accent-teal)">
+              This is the real power. Complex multi-source tasks that would take hours manually run in seconds with parallel subagents.
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </section>
 
-<!-- BEST PRACTICES -->
-<section class="practices" id="practices">
+<!-- ═══════ ARCHITECTURE / BEST PRACTICES ═══════ -->
+<section class="architecture" id="architecture">
   <div class="container">
     <div class="section-header reveal">
-      <span class="section-tag">Getting the Most Out of It</span>
-      <h2>Best practices</h2>
-      <p>Tips from power users to help you get better results faster.</p>
+      <span class="section-tag">How to Think About It</span>
+      <h2>The mental models that matter</h2>
+      <p>Using Claude Code well isn't about prompt tricks. It's about understanding how it works under the hood — especially context management.</p>
     </div>
-    <div class="bp-grid">
-      <div class="bp-card reveal reveal-delay-1">
-        <div class="bp-icon">💬</div>
-        <div>
-          <h3>Be specific in your prompts</h3>
-          <p>"Build a dashboard" is okay. "Build a dashboard showing Q1 pipeline by rep with a filter for deal stage and a CSV export button" is much better. Context is everything.</p>
+
+    <div class="arch-grid">
+      <!-- Context Window -->
+      <div class="arch-card full-width reveal">
+        <div class="arch-card-header">
+          <div class="arch-icon coral">🧠</div>
+          <div>
+            <h3>Your context window is finite. Treat it like RAM.</h3>
+            <div class="subtitle">THE SINGLE MOST IMPORTANT CONCEPT</div>
+          </div>
+        </div>
+        <p>Claude Code has a context window — roughly 200K tokens. That sounds like a lot, but it fills up fast when you're reading files, querying APIs, and iterating on code. When it fills up, Claude compresses older messages and loses nuance. Your job is to keep the context clean so the AI stays sharp.</p>
+        <div class="context-meter">
+          <div class="context-meter-label">
+            <span class="label">Context Window Usage</span>
+            <span class="value" id="meter-value">~40% — Fresh & focused</span>
+          </div>
+          <div class="meter-track">
+            <div class="meter-fill ok" id="meter-fill" style="width: 40%"></div>
+          </div>
+          <div class="meter-stages">
+            <span>0% — Start</span>
+            <span>50% — Peak focus</span>
+            <span>75% — Delegate or /clear</span>
+            <span>100% — Compacting</span>
+          </div>
+        </div>
+        <div class="callout callout-warn" style="margin-top:1rem">
+          <strong>The trap:</strong> Don't dump your entire Salesforce schema, all your campaign data, AND your brand guidelines into one session. Load only what the current task needs. Use subagents for independent research so the main window stays clean.
         </div>
       </div>
-      <div class="bp-card reveal reveal-delay-2">
-        <div class="bp-icon">🔌</div>
-        <div>
-          <h3>Connect your tools via MCP</h3>
-          <p>Model Context Protocol lets Claude Code talk directly to Salesforce, databases, APIs, and more. Set it up once, use it forever. This is where the real power is.</p>
+
+      <!-- MCP Servers -->
+      <div class="arch-card reveal reveal-delay-1">
+        <div class="arch-card-header">
+          <div class="arch-icon teal">🔌</div>
+          <div>
+            <h3>MCP: Your data layer</h3>
+            <div class="subtitle">MODEL CONTEXT PROTOCOL</div>
+          </div>
+        </div>
+        <p>MCP servers are how Claude Code talks to external systems — Salesforce, databases, Google APIs, Slack. Think of them as typed adapters: Claude knows what tools are available and what data it can pull. Set up once per project.</p>
+        <div class="arch-terminal">
+          <span class="comment">// .mcp.json — project config</span><br>
+          <span class="cmd">{</span><br>
+          <span class="cmd">&nbsp; "salesforce": {</span><br>
+          <span class="cmd">&nbsp; &nbsp; "command": "npx",</span><br>
+          <span class="cmd">&nbsp; &nbsp; "args": ["sf-mcp-server"],</span><br>
+          <span class="cmd">&nbsp; &nbsp; "env": { "SF_TOKEN": "${SF_TOKEN}" }</span><br>
+          <span class="cmd">&nbsp; }</span><br>
+          <span class="cmd">}</span>
+        </div>
+        <div class="callout callout-warn">
+          <strong>Context cost:</strong> Each MCP server's tool definitions eat context tokens just by existing. Only connect what you actually need per project. 3 focused servers > 10 "just in case" ones.
         </div>
       </div>
-      <div class="bp-card reveal reveal-delay-3">
-        <div class="bp-icon">🔁</div>
-        <div>
-          <h3>Iterate, don't restart</h3>
-          <p>Claude Code remembers context within a session. Instead of starting over, refine: "Make it wider." "Add last month's data." "Change the colors to match our brand." Build on what's there.</p>
+
+      <!-- Subagents -->
+      <div class="arch-card reveal reveal-delay-2">
+        <div class="arch-card-header">
+          <div class="arch-icon purple">🔀</div>
+          <div>
+            <h3>Subagents: Parallel workers</h3>
+            <div class="subtitle">DELEGATION, NOT SEQUENCE</div>
+          </div>
+        </div>
+        <p>When a task involves gathering data from multiple sources or doing independent work, Claude Code can spawn subagents — lightweight workers that run in parallel and return results to the main agent.</p>
+        <p style="margin-top:0.5rem">This is powerful for two reasons: <strong style="color:var(--text-primary)">speed</strong> (parallel > sequential) and <strong style="color:var(--text-primary)">context hygiene</strong> (subagent work doesn't bloat your main window).</p>
+        <div class="callout callout-tip">
+          <strong>When to delegate:</strong> If you need info from 2+ independent sources, or if a subtask doesn't need your conversation history to make sense, it should be a subagent.
         </div>
       </div>
-      <div class="bp-card reveal reveal-delay-4">
-        <div class="bp-icon">📋</div>
-        <div>
-          <h3>Use CLAUDE.md for project memory</h3>
-          <p>Drop a CLAUDE.md file in your project with brand guidelines, data conventions, and tool preferences. Claude Code reads it automatically and follows your rules every session.</p>
+
+      <!-- CLAUDE.md -->
+      <div class="arch-card reveal reveal-delay-1">
+        <div class="arch-card-header">
+          <div class="arch-icon gold">📋</div>
+          <div>
+            <h3>CLAUDE.md: Project memory</h3>
+            <div class="subtitle">PERSISTENT INSTRUCTIONS</div>
+          </div>
+        </div>
+        <p>Every session starts fresh — Claude Code doesn't remember yesterday's session. But it always reads <code style="background:var(--bg-terminal);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--font-mono);font-size:0.8rem">CLAUDE.md</code> from your project directory. This is where you encode your brand voice, data conventions, preferred tools, and team processes.</p>
+        <div class="arch-terminal">
+          <span class="comment"># CLAUDE.md</span><br>
+          <span class="cmd">## Brand</span><br>
+          <span class="output">Colors: Navy #1a1a2e, Teal #00d4aa</span><br>
+          <span class="output">Voice: Professional, warm, concise</span><br><br>
+          <span class="cmd">## Salesforce</span><br>
+          <span class="output">Org: production (not sandbox)</span><br>
+          <span class="output">Key objects: Lead, Opportunity, Campaign</span><br>
+          <span class="output">Custom fields: Lead_Score__c, ICP_Fit__c</span>
         </div>
       </div>
-      <div class="bp-card reveal reveal-delay-1">
-        <div class="bp-icon">📐</div>
-        <div>
-          <h3>Start small, expand</h3>
-          <p>Get a working prototype first, then add complexity. "Build the basic chart" → "Add filters" → "Add drill-down" → "Schedule a daily email." Incremental wins compound.</p>
+
+      <!-- /clear -->
+      <div class="arch-card reveal reveal-delay-2">
+        <div class="arch-card-header">
+          <div class="arch-icon blue">🧹</div>
+          <div>
+            <h3>Know when to /clear</h3>
+            <div class="subtitle">FRESH CONTEXT = BETTER OUTPUT</div>
+          </div>
+        </div>
+        <p>After finishing a task, start a new context for the next one. Leftover context from building a dashboard will confuse the AI when you switch to writing email templates. Think of each <code style="background:var(--bg-terminal);padding:0.1rem 0.4rem;border-radius:4px;font-family:var(--font-mono);font-size:0.8rem">/clear</code> as closing tabs in your browser.</p>
+        <div class="callout callout-info">
+          <strong>Rule of thumb:</strong> One task per session. Dashboard? /clear. Email templates? /clear. Report? /clear. Your CLAUDE.md carries the important context forward automatically.
         </div>
       </div>
-      <div class="bp-card reveal reveal-delay-2">
-        <div class="bp-icon">🧪</div>
-        <div>
-          <h3>Let it run tests</h3>
-          <p>Claude Code can write and run its own tests. When building automations that touch live data (especially Salesforce), ask it to test against sandbox data first.</p>
+
+      <!-- Iterate -->
+      <div class="arch-card reveal reveal-delay-1">
+        <div class="arch-card-header">
+          <div class="arch-icon teal">🔁</div>
+          <div>
+            <h3>Iterate, don't over-specify upfront</h3>
+            <div class="subtitle">BUILD → SEE → REFINE</div>
+          </div>
+        </div>
+        <p>Don't try to write the perfect prompt. Give Claude Code the core requirements, let it build a first pass, then refine. "Make the chart bigger." "Switch to a bar chart." "Add last quarter for comparison." This is faster and produces better results than trying to specify everything in one shot.</p>
+        <div class="callout callout-tip">
+          <strong>Why this works:</strong> Each iteration adds ~200 tokens of context. A massive upfront prompt with every detail adds thousands — and you'll still need to iterate anyway.
+        </div>
+      </div>
+
+      <!-- Specificity -->
+      <div class="arch-card reveal reveal-delay-2">
+        <div class="arch-card-header">
+          <div class="arch-icon gold">🎯</div>
+          <div>
+            <h3>Specificity beats length</h3>
+            <div class="subtitle">SIGNAL OVER NOISE</div>
+          </div>
+        </div>
+        <p>A 3-line prompt with the right details outperforms a 30-line prompt that's vague. Name your data sources. Name your output format. Name your audience. Claude Code works best when it knows exactly what "done" looks like.</p>
+        <div class="arch-terminal">
+          <span class="comment"># Vague — Claude has to guess</span><br>
+          <span class="error">> Build me a marketing report</span><br><br>
+          <span class="comment"># Specific — Claude nails it</span><br>
+          <span class="success">> Build an HTML report showing Q1</span><br>
+          <span class="success">&nbsp; Google Ads spend vs Salesforce</span><br>
+          <span class="success">&nbsp; closed-won revenue by campaign.</span><br>
+          <span class="success">&nbsp; Include a ROAS column. Export to PDF.</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- CTA -->
+<!-- ═══════ CTA ═══════ -->
 <section class="cta-section">
   <div class="container">
     <div class="cta-box reveal">
       <h2>Ready to build?</h2>
-      <p>Claude Code runs in your terminal and works with your existing tools. Start with one workflow — a dashboard, a report, an automation — and see how fast it ships.</p>
-      <a href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" class="hero-cta" style="display: inline-flex;">
+      <p>Start with one workflow — the Salesforce dashboard, a report, an email sequence. Run <code style="background:rgba(0,0,0,0.3);padding:0.15rem 0.5rem;border-radius:4px;font-family:var(--font-mono);font-size:0.85rem">claude</code> in your terminal and describe what you need.</p>
+      <a href="https://docs.anthropic.com/en/docs/claude-code/overview" target="_blank" class="hero-cta" style="display:inline-flex;">
         Get Claude Code
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </a>
@@ -697,7 +1420,6 @@
   </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div class="container">
     <p>Built with Claude Code — this entire site was generated in a single prompt.</p>
@@ -705,24 +1427,27 @@
 </footer>
 
 <script>
-  // ───── HERO TERMINAL ANIMATION ─────
+  // ───── HERO TERMINAL ─────
   const heroLines = [
     { type: 'prompt', text: '$ claude' },
     { type: 'output', text: '' },
-    { type: 'comment', text: '# Connected to Salesforce via MCP' },
+    { type: 'comment', text: '# MCP: salesforce, google-ads, ga4' },
+    { type: 'comment', text: '# CLAUDE.md loaded (brand, conventions)' },
     { type: 'output', text: '' },
-    { type: 'prompt', text: '> Build a campaign ROI dashboard that' },
-    { type: 'prompt', text: '  pulls from our Salesforce campaigns' },
-    { type: 'prompt', text: '  and shows cost-per-lead by channel' },
+    { type: 'prompt', text: '> I need a Q1 campaign performance' },
+    { type: 'prompt', text: '  dashboard. Pull spend from Google' },
+    { type: 'prompt', text: '  Ads, revenue from Salesforce, and' },
+    { type: 'prompt', text: '  traffic from GA4. Show ROAS by' },
+    { type: 'prompt', text: '  campaign with a date picker.' },
     { type: 'output', text: '' },
-    { type: 'success', text: '✓ Reading Salesforce campaign schema...' },
-    { type: 'success', text: '✓ Found 847 campaigns, 12.4k leads' },
-    { type: 'file', text: '  Creating dashboard/index.html' },
-    { type: 'file', text: '  Creating dashboard/data.js' },
-    { type: 'file', text: '  Creating dashboard/charts.js' },
-    { type: 'success', text: '✓ Dashboard ready at localhost:3000' },
+    { type: 'success', text: '✓ Querying 3 data sources via MCP...' },
+    { type: 'success', text: '✓ Spawning subagent for GA4 data' },
+    { type: 'success', text: '✓ Spawning subagent for Ads data' },
+    { type: 'file', text: '  Main agent: building Salesforce view' },
     { type: 'output', text: '' },
-    { type: 'warn', text: '→ Shall I deploy this to Vercel?' },
+    { type: 'success', text: '✓ All agents complete — merging data' },
+    { type: 'file', text: '  Writing src/Dashboard.tsx (6 files)' },
+    { type: 'success', text: '✓ Dashboard live at localhost:3000' },
   ];
 
   function renderTerminal(containerId, lines, speed = 80) {
@@ -740,12 +1465,8 @@
       const el = document.createElement('div');
       el.className = 'terminal-line';
       el.style.animationDelay = `${i * 0.05}s`;
-      if (line.type === 'prompt') el.innerHTML = `<span class="cmd">${line.text}</span>`;
-      else if (line.type === 'comment') el.innerHTML = `<span class="comment">${line.text}</span>`;
-      else if (line.type === 'success') el.innerHTML = `<span class="success">${line.text}</span>`;
-      else if (line.type === 'warn') el.innerHTML = `<span class="warn">${line.text}</span>`;
-      else if (line.type === 'file') el.innerHTML = `<span class="file">${line.text}</span>`;
-      else el.innerHTML = `<span class="output">${line.text || '&nbsp;'}</span>`;
+      const cls = line.type === 'prompt' ? 'cmd' : line.type;
+      el.innerHTML = `<span class="${cls}">${line.text || '&nbsp;'}</span>`;
       container.appendChild(el);
       i++;
       setTimeout(addLine, speed);
@@ -753,84 +1474,45 @@
     addLine();
   }
 
-  // Start hero animation after a brief delay
-  setTimeout(() => renderTerminal('hero-term-body', heroLines, 100), 500);
+  setTimeout(() => renderTerminal('hero-term-body', heroLines, 90), 400);
 
-  // ───── WORKFLOW STEP TERMINALS ─────
-  const wfTerminals = [
-    [
-      { type: 'prompt', text: '$ claude' },
-      { type: 'output', text: '' },
-      { type: 'prompt', text: '> I need a dashboard that shows our' },
-      { type: 'prompt', text: '  Google Ads spend vs Salesforce' },
-      { type: 'prompt', text: '  closed-won revenue, broken down by' },
-      { type: 'prompt', text: '  campaign, for the last 6 months.' },
-      { type: 'prompt', text: '  Include a date range picker.' },
-      { type: 'output', text: '' },
-      { type: 'success', text: '✓ Understood. Let me plan this out...' },
-    ],
-    [
-      { type: 'success', text: '✓ Connecting to Salesforce MCP server' },
-      { type: 'success', text: '✓ Reading Google Ads API credentials' },
-      { type: 'output', text: '' },
-      { type: 'file', text: '  Writing src/api/salesforce.ts' },
-      { type: 'file', text: '  Writing src/api/google-ads.ts' },
-      { type: 'file', text: '  Writing src/components/Dashboard.tsx' },
-      { type: 'file', text: '  Writing src/components/DatePicker.tsx' },
-      { type: 'file', text: '  Writing src/components/SpendChart.tsx' },
-      { type: 'output', text: '' },
-      { type: 'success', text: '✓ Installing chart.js, date-fns' },
-      { type: 'success', text: '✓ Dev server running at :3000' },
-    ],
-    [
-      { type: 'prompt', text: '> Make the revenue bars green and the' },
-      { type: 'prompt', text: '  spend bars gray. Add a ROI % line.' },
-      { type: 'output', text: '' },
-      { type: 'file', text: '  Editing src/components/SpendChart.tsx' },
-      { type: 'success', text: '✓ Updated chart colors and added ROI' },
-      { type: 'output', text: '' },
-      { type: 'prompt', text: '> Add a table below with the raw data' },
-      { type: 'prompt', text: '  and a CSV export button.' },
-      { type: 'output', text: '' },
-      { type: 'file', text: '  Writing src/components/DataTable.tsx' },
-      { type: 'success', text: '✓ Table with export added' },
-    ],
-    [
-      { type: 'prompt', text: '> Ship it to Vercel.' },
-      { type: 'output', text: '' },
-      { type: 'success', text: '✓ Running build... passed' },
-      { type: 'success', text: '✓ Running tests... 8/8 passed' },
-      { type: 'output', text: '' },
-      { type: 'file', text: '  $ git add -A' },
-      { type: 'file', text: '  $ git commit -m "campaign dashboard"' },
-      { type: 'file', text: '  $ git push origin main' },
-      { type: 'output', text: '' },
-      { type: 'success', text: '✓ Deployed to Vercel' },
-      { type: 'warn', text: '→ https://campaign-dash.vercel.app' },
-    ],
-  ];
-
-  document.querySelectorAll('.wf-step').forEach(step => {
-    step.addEventListener('click', () => {
-      document.querySelectorAll('.wf-step').forEach(s => s.classList.remove('active'));
-      step.classList.add('active');
-      const idx = parseInt(step.dataset.step);
-      renderTerminal('wf-term-body', wfTerminals[idx], 70);
+  // ───── SHOWCASE TABS ─────
+  document.querySelectorAll('.showcase-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.showcase-tab').forEach(t => t.classList.remove('active'));
+      document.querySelectorAll('.showcase-panel').forEach(p => p.classList.remove('active'));
+      tab.classList.add('active');
+      document.getElementById('panel-' + tab.dataset.panel).classList.add('active');
     });
   });
 
-  // Init first workflow terminal
-  setTimeout(() => renderTerminal('wf-term-body', wfTerminals[0], 90), 1000);
+  // ───── CONTEXT METER ANIMATION ─────
+  const meterStates = [
+    { pct: 15, cls: 'ok', text: '~15% — Just started, lots of room' },
+    { pct: 40, cls: 'ok', text: '~40% — Building, context is focused' },
+    { pct: 65, cls: 'warn', text: '~65% — Getting heavy, consider delegating' },
+    { pct: 85, cls: 'danger', text: '~85% — Time to /clear after this task' },
+    { pct: 40, cls: 'ok', text: '~40% — /clear — fresh context, CLAUDE.md reloaded' },
+  ];
+  let meterIdx = 0;
+  const meterFill = document.getElementById('meter-fill');
+  const meterValue = document.getElementById('meter-value');
+
+  function cycleMeter() {
+    const s = meterStates[meterIdx];
+    meterFill.style.width = s.pct + '%';
+    meterFill.className = 'meter-fill ' + s.cls;
+    meterValue.textContent = s.text;
+    meterIdx = (meterIdx + 1) % meterStates.length;
+  }
+  setInterval(cycleMeter, 3000);
 
   // ───── SCROLL REVEAL ─────
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
+      if (entry.isIntersecting) entry.target.classList.add('visible');
     });
-  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
-
+  }, { threshold: 0.08, rootMargin: '0px 0px -30px 0px' });
   document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 </script>
 
